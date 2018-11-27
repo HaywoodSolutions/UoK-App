@@ -38,7 +38,7 @@ export const saveNote = (note) => {
       uploadTime: firebase.firestore.FieldValue.serverTimestamp()
     };
 
-    const userRef = firestore.collection('users').doc(uid);
+    const userRef = firestore.collection('user').doc(uid);
     userRef.collection('notes').doc().set(data)
     .then((docRef) => {
       dispatch({
