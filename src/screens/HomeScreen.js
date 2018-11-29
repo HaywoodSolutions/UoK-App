@@ -11,37 +11,24 @@ class Lectures extends React.Component {
     
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.state = {
-      messages: ds.cloneWithRows(['row 1', 'row 2']),
+      messages: ds.cloneWithRows([
+        {name: 'LectureView',
+         page: 'Lectures'},
+        {name: 'Timetable',
+         page: 'Timetable'}]),
     };
-  }
-
-  componentDidMount() {
-    const uid = firebase.auth().currentUser.uid;
-
-    const firestore = firebase.firestore();
-    const settings = { timestampsInSnapshots: true };
-    firestore.settings(settings);
-    const messagesRef = firestore.collection('user').doc(uid).collection("notes");
-    
-    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
-    messagesRef.get().then(querySnapshot => {
-      let messages = [];
-      querySnapshot.forEach(doc => {
-        messages.push(doc.data());
-      });
-      this.setState({
-        messages: ds.cloneWithRows(messages),
-      });
-    })
-    .catch((error) => {
-      this.setState({
-        messages: ds.cloneWithRows(["failed"])
-      });
-    });
   }
   
   static navigationOptions = {
-    tabBarIcon: ({tintColor}) => (<Entypo name="video" size={32} color={tintColor}/>)
+    title: 'KentFlix',
+    headerStyle: {
+      backgroundColor: THEME_COLOR,
+    },
+    headerTintColor: '#fff',
+    headerTitleStyle: {
+      fontWeight: 'bold',
+      fontSize: 30
+    },
   };
                                   
   render() {
@@ -52,16 +39,12 @@ class Lectures extends React.Component {
       note
     } = this.props;
 
-    if (error) {
-      alert(error);
-    }
-
     return (
         <View style={backgroundStyle}>
           <Text
               style={{
                 fontWeight: '600',
-                fontSize: 20,
+                fontSize: 30,
                 alignSelf: 'center',
                 color: '#fff',
                 paddingTop: 10
@@ -69,28 +52,14 @@ class Lectures extends React.Component {
           >
             {'KentFlix'}
           </Text>
-          <Text
-              style={{
-                fontWeight: '600',
-                fontSize: 10,
-                alignSelf: 'center',
-                color: '#fff',
-                paddingTop: 0
-              }}
-          >
-            {'Lectures'}
-          </Text>
-          <View  style={backgroundStyle}>
-            <ScrollView style={styles.popup}>
-              <ListView contentContainerStyle={styles.list}
-                onLayout={this.onLayout}
-                enableEmptySections={true}
-                dataSource={this.state.messages}
-                removeClippedSubviews={false}
-                renderRow={(rowData) => <Text style={styles.item}>{rowData.note}</Text>}
-              />
-            </ScrollView>
-          </View>
+          <ScrollView>
+            <ListView contentContainerStyle={styles.list}
+              onLayout={this.onLayout}
+              enableEmptySections={true}
+              dataSource={this.state.messages}
+              renderRow={(rowData) => <Text style={styles.item} onPress={() => this.props.navigation.navigate(rowData.page)}>{rowData.name}</Text>}
+            />
+          </ScrollView>
         </View>
     );
   }
@@ -112,9 +81,6 @@ const styles = StyleSheet.create({
     height: 125,
     marginTop: 10
   },
-  scrollStyle: {
-    flex: 1
-  },
   noteStyle: {
     backgroundColor: '#FFF',
     textAlignVertical: 'top',
@@ -131,20 +97,16 @@ const styles = StyleSheet.create({
       marginRight: 10,
       flex: 1
   },
-  popup: {
-      borderTopLeftRadius: 5,
-      borderTopRightRadius: 5,
-      backgroundColor: "#ffffff",
-      flex: 1
-  },
   item: {
+      backgroundColor: '#FFF',
       margin: 3,
       padding: 10,
       flex: 1,
       borderRadius: 5,
       borderWidth: 2,
-      borderColor: THEME_COLOR,
+      borderColor: '#ffffff',
       color: '#000000',
+      overflow: 'hidden',
       fontSize: 19
   }
 });

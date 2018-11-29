@@ -1,13 +1,13 @@
 import { createStackNavigator } from 'react-navigation';
 
-import MainNavigation from './MainNavigation';
+import HomeNavigation from './HomeNavigation';
 import SignInNavigation from './SignInNavigation';
 
 export const createRootNavigator = (signedIn = false) => {
   return createStackNavigator(
       {
         SignedIn: {
-          screen: MainNavigation,
+          screen: HomeNavigation,
           navigationOptions: {
             gesturesEnabled: false
           }

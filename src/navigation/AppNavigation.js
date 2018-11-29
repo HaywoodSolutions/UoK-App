@@ -22,7 +22,7 @@ class AppNav extends React.Component {
 
     if(!hasCheckedAuthState){
       return null;
-    }else{
+    } else{
       const Layout = createRootNavigator(isLoggedIn);
       return(
         <Layout />

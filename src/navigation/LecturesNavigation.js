@@ -18,13 +18,23 @@ export default createBottomTabNavigator(
       },
     },
     {
+      initialRouteName: 'Lectures',
       tabBarPosition: 'bottom',
-      animationEnabled: false,
+      animationEnabled: true,
       swipeEnabled: false,
       tabBarOptions: {
-        showLabel: false,
+        showLabel: true,
         activeTintColor: THEME_COLOR,
-        inactiveTintColor: 'lightgray'
+        inactiveTintColor: 'lightgray',
+      },
+      defaultNavigationOptions: {
+        headerStyle: {
+          backgroundColor: '#f4511e',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
       }
     }
 );
