@@ -112,68 +112,66 @@ class Timetable extends React.Component {
 
     return (
         <View style={backgroundStyle}>
-          <View  style={backgroundStyle}>
-            <View style={styles.popup}>
-              <View style={styles.weekSelector}>
-                 <Button
-                    title={loading ? '' : '<'}
-                    style={{
-                      height: 60,
-                      marginLeft: 5,
-                      paddingTop: 5,
-                      paddingBottom: 5
-                    }}
-                    textStyle={{
-                      fontSize: 20,
-                      color: '#fff'
-                    }}
-                    buttonStyle={styles.weekSelectorButton}
-                    loadingColor={THEME_COLOR}
-                    onPress={() => this.previousWeek()}
-                    loading={loading}/>
-                <View style={{
-                  justifyContent: 'center', 
-                  height: 60}}>
-                  <Text
-                        style={{
-                          fontSize: 20,
-                          color: THEME_COLOR,
-                          paddingTop: 0
-                        }}
-                    >
-                    {'Week'} {this.state.selectedWeekName}
-                  </Text>
-                </View>
-                <Button
-                    title={loading ? '' : '>'}
-                    style={{
-                      height: 60,
-                      marginRight: 5,
-                      paddingTop: 5,
-                      paddingBottom: 5
-                    }}
-                    textStyle={{
-                      fontSize: 20,
-                      color: '#fff'
-                    }}
-                    buttonStyle={styles.weekSelectorButton}
-                    loadingColor={THEME_COLOR}
-                    onPress={() => this.nextWeek()}
-                    loading={loading}/>
-              </View>
-              <ScrollView>
-                <FlatList
-                  data={this.state.currentWeekData}
-                  renderItem={({ item }) =>  <TimeTableSlot key={item.key} session={item} />}
-                  keyExtractor={(item, index) => item.key}
-                  refreshing={this.state.refreshing}
-                  onRefresh={this.handleRefresh.bind(this)}
+          <View style={styles.popup}>
+            <View style={styles.weekSelector}>
+               <Button
+                  title={loading ? '' : '<'}
                   style={{
-                      marginBottom: 10
-                    }}
-                />
-              </ScrollView>
+                    height: 60,
+                    marginLeft: 5,
+                    paddingTop: 5,
+                    paddingBottom: 5
+                  }}
+                  textStyle={{
+                    fontSize: 20,
+                    color: '#fff'
+                  }}
+                  buttonStyle={styles.weekSelectorButton}
+                  loadingColor={THEME_COLOR}
+                  onPress={() => this.previousWeek()}
+                  loading={loading}/>
+              <View style={{
+                justifyContent: 'center', 
+                height: 60}}>
+                <Text
+                      style={{
+                        fontSize: 20,
+                        color: THEME_COLOR,
+                        paddingTop: 0
+                      }}
+                  >
+                  {'Week'} {this.state.selectedWeekName}
+                </Text>
+              </View>
+              <Button
+                  title={loading ? '' : '>'}
+                  style={{
+                    height: 60,
+                    marginRight: 5,
+                    paddingTop: 5,
+                    paddingBottom: 5
+                  }}
+                  textStyle={{
+                    fontSize: 20,
+                    color: '#fff'
+                  }}
+                  buttonStyle={styles.weekSelectorButton}
+                  loadingColor={THEME_COLOR}
+                  onPress={() => this.nextWeek()}
+                  loading={loading}/>
             </View>
+            <ScrollView>
+              <FlatList
+                data={this.state.currentWeekData}
+                renderItem={({ item }) =>  <TimeTableSlot key={item.key} session={item} />}
+                keyExtractor={(item, index) => item.key}
+                refreshing={this.state.refreshing}
+                onRefresh={this.handleRefresh.bind(this)}
+                style={{
+                    marginBottom: 10
+                  }}
+              />
+            </ScrollView>
           </View>
         </View>
     );

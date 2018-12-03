@@ -12,7 +12,7 @@ export default createBottomTabNavigator(
           header: 'null'
         }
       },
-      ViewCategories: {
+      Categories: {
         screen: InquireCategories,
         navigationOptions: {
           header: null

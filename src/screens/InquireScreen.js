@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, Platform, ScrollView, ListView, FlatList, Image } from 'react-native';
+import {View, Text, StyleSheet, Platform, ScrollView, ListView, FlatList, Image, TouchableOpacity } from 'react-native';
 import {connect} from "react-redux";
 import {FontAwesome, Entypo} from '@expo/vector-icons';
 import {THEME_COLOR} from "../lib/Constants";
@@ -67,21 +67,30 @@ class Inquire extends React.Component {
     if (error) {
       alert(error);
     }
+    
+    const { navigate } = this.props.navigation;
 
     return (
         <View style={backgroundStyle}>
-          <View style={backgroundStyle}>
             //<ScrollView style={styles.popup}>
               <FlatList
                   data={this.state.feed}
-                  renderItem={({ item }) =>  <InquireArticle article={item} />}
+                  renderItem={({ item }) =>  
+                      (<TouchableOpacity
+                        onPress={() => {
+                          navigate('ViewArticle', {
+                            articleTitle: item.title
+                          });
+                        }}
+                      >
+                        <InquireArticle article={item}/>
+                      </TouchableOpacity>)}
                   keyExtractor={item => item.guid}
                   refreshing={this.state.refreshing}
                   onRefresh={this.handleRefresh.bind(this)}
                   onEndReached={() => this.loadMore()}
                 />
            // </ScrollView>
-          </View>
         </View>
     );
   }

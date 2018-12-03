@@ -8,6 +8,8 @@ import firebase from 'firebase';
 import { AppNavigation } from './src/navigation/AppNavigation';
 import {THEME_COLOR} from "./src/lib/Constants";
 
+const store = createStore(reducers, {}, applyMiddleware(ReduxThunk));
+
 export default class App extends React.Component {
 
   componentWillMount() {
@@ -24,7 +26,6 @@ export default class App extends React.Component {
   }
 
   render() {
-    const store = createStore(reducers, {}, applyMiddleware(ReduxThunk));
     return (
         <Provider store={store}>
           <View style={styles.container}>

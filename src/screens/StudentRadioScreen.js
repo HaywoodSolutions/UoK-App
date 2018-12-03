@@ -32,46 +32,21 @@ class StudentRadio extends React.Component {
 
     return (
         <View style={backgroundStyle}>
-          
-          <Text
-              style={{
-                fontWeight: '600',
-                fontSize: 20,
-                alignSelf: 'center',
-                color: '#fff',
-                paddingTop: 0
-              }}
-          >
-            {'KentFlix'}
-          </Text>
-          <Text
-              style={{
-                fontWeight: '600',
-                fontSize: 10,
-                alignSelf: 'center',
-                color: '#fff',
-                paddingTop: 0
-              }}
-          >
-            {'Student Radio'}
-          </Text>
-          <View style={backgroundStyle}>
-            <ScrollView style={styles.popup}>
-              <View style={styles.row}>
-                <View style={styles.column}>
-                  <Image style={styles.radioIcon} source={{uri: 'https://i3.radionomy.com/radios/400/2e487e3e-1d7b-4677-a6f9-f31e80d4ae01.png'}}/>
-                  <Text style={styles.textStyle}> {"CANTERBURY'S COMMUNITY & STUDENT RADIO"} </Text>
+          <ScrollView style={styles.popup}>
+            <View style={styles.row}>
+              <View style={styles.column}>
+                <Image style={styles.radioIcon} source={{uri: 'https://i3.radionomy.com/radios/400/2e487e3e-1d7b-4677-a6f9-f31e80d4ae01.png'}}/>
+                <Text style={styles.textStyle}> {"CANTERBURY'S COMMUNITY & STUDENT RADIO"} </Text>
+              </View>
+            </View>
+            <View style={styles.row}>
+              <View style={styles.radioPlayWrapper}>
+                <View style={styles.iconWrapper}>
+                  <FontAwesome name="play" size={75} color={'#fff'}/>
                 </View>
               </View>
-              <View style={styles.row}>
-                <View style={styles.radioPlayWrapper}>
-                  <View style={styles.iconWrapper}>
-                    <FontAwesome name="play" size={75} color={'#fff'}/>
-                  </View>
-                </View>
-              </View>
-            </ScrollView>
-          </View>
+            </View>
+          </ScrollView>
         </View>
     );
   }
@@ -84,12 +59,7 @@ class StudentRadio extends React.Component {
 const styles = StyleSheet.create({
   backgroundStyle: {
     flex: 1,
-    backgroundColor: '#CB2228',
-    ...Platform.select({
-      ios:{
-        paddingTop: 10
-      }
-    })
+    backgroundColor: '#CB2228'
   },
   headerTextStyle: {
     alignSelf: 'center',

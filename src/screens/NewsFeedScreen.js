@@ -47,39 +47,15 @@ class NewsFeed extends React.Component {
 
     return (
         <View style={backgroundStyle}>
-          <Text
-              style={{
-                fontWeight: '600',
-                fontSize: 20,
-                alignSelf: 'center',
-                color: '#fff',
-                paddingTop: 0
-              }}
-          >
-            {'KentFlix'}
-          </Text>
-          <Text
-              style={{
-                fontWeight: '600',
-                fontSize: 10,
-                alignSelf: 'center',
-                color: '#fff',
-                paddingTop: 0
-              }}
-          >
-            {'News Feed'}
-          </Text>
-          <View  style={backgroundStyle}>
-            <ScrollView style={styles.popup}>
-              <FlatList
-                  data={this.state.articles}
-                  renderItem={({ item }) =>  <Article article={item} />}
-                  keyExtractor={item => item.title}
-                  refreshing={this.state.refreshing}
-                  onRefresh={this.handleRefresh.bind(this)}
-                />
-            </ScrollView>
-          </View>
+          <ScrollView style={styles.popup}>
+            <FlatList
+                data={this.state.articles}
+                renderItem={({ item }) =>  <Article article={item} />}
+                keyExtractor={item => item.title}
+                refreshing={this.state.refreshing}
+                onRefresh={this.handleRefresh.bind(this)}
+              />
+          </ScrollView>
         </View>
     );
   }

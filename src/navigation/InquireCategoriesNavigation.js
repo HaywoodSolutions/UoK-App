@@ -3,7 +3,7 @@ import { createStackNavigator } from 'react-navigation';
 import InquireViewCategoryScreen from '../screens/InquireViewCategoryScreen';
 import InquireCategories from '../screens/InquireCategoriesScreen';
 import {THEME_COLOR} from "../lib/Constants";
-import { Button } from 'react-native';
+import { Button, Image } from 'react-native';
 
 const navigationOptions = ({ navigation }) => ({
   headerTitle: "View Category",
@@ -12,14 +12,13 @@ const navigationOptions = ({ navigation }) => ({
     backgroundColor: THEME_COLOR,
     borderBottomWidth:0
   },
-  headerTitleStyle: {
-    color: '#fff',
-    fontSize: 20
-  },
+  headerTitle: (
+    <Image source={require('../../assets/inquire-christmas-logo.png')} style={{width: 150, height: 25, resizeMode: 'contain' }}/>
+  ),
   headerTintColor: 'white',
   gesturesEnabled: true,
   headerLeft: (<Button
-                title="< Go Back"
+                title="< Categories"
                 color="#fff"
                 onPress={() => navigation.goBack(null)} />),
 })

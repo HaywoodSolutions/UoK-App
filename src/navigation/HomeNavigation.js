@@ -81,7 +81,7 @@ export default createStackNavigator({
           title: `SU Radio`,
           headerBackTitle: `SU Radio`,
           headerStyle: {
-            backgroundColor: THEME_COLOR,
+            backgroundColor: '#CB2228',
             borderBottomWidth:0
           },
           headerTitleStyle: {

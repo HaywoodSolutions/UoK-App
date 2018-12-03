@@ -7,24 +7,16 @@ import CustomHeader from "../components/CustomHeader";
 export default createStackNavigator(
     {
       Home: {
-        screen: StudentRadioScreen
+        screen: StudentRadioScreen,
+        navigationOptions: () => ({
+          header: null
+        }),
       },
     },
     {
       initialRouteName: 'Home',
        navigationOptions: {
-        headerStyle: {
-          backgroundColor: THEME_COLOR
-        },
-        headerTitleStyle: {
-          fontWeight: "bold",
-          color: "#fff",
-          zIndex: 1,
-          fontSize: 18,
-          lineHeight: 23
-        },
-        headerTintColor: "#fff",
-        animationEnabled: true
+        header: null
       }
     }
 );

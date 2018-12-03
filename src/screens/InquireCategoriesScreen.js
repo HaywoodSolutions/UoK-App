@@ -23,47 +23,47 @@ export default class Inquire extends React.Component {
       {
         name: "Opinion",
         urlToImage: "https://mogoartsmarketing.com/wp-content/uploads/2018/06/audience-828584_960_720-1288x724.jpg",
-        color: "light"
+        searchTerm: "opintion"
       },
       {
         name: "Lifestyle",
         urlToImage: "https://eurozpravy.cz/pictures/photo/2017/04/18/running-573762-1920-0ac0b19f35.jpg",
-        color: "light"
+        searchTerm: "life"
       },
       {
         name: "Culture",
         urlToImage: "https://i.ytimg.com/vi/1ccGvTIHFaQ/maxresdefault.jpg",
-        color: "light"
+        searchTerm: "culture"
       },
       {
         name: "Entertainment",
         urlToImage: "https://www.dailyecho.co.uk/resources/images/7704451/?type=responsive-gallery-fullscreen",
-        color: "light"
+        searchTerm: "entertainment"
       },
       {
         name: "Science",
         urlToImage: "http://www.imperial.ac.uk/news/image/mainnews2012/34847.jpg",
-        color: "light"
+        searchTerm: "science"
       },
       {
         name: "Technology",
         urlToImage: "https://i1.wp.com/www.palo-alto-et-compagnie.com/wp-content/uploads/2016/11/lunettes-filtrantes-r%C3%A9alit%C3%A9.jpg?fit=480%2C720",
-        color: "light"
+        searchTerm: "tech"
       },
       {
         name: "Sport",
         urlToImage: "https://i2.wp.com/digital-photography-school.com/wp-content/uploads/2017/11/cross-lighting-title.jpg?resize=750%2C500&ssl=1",
-        color: "light"
+        searchTerm: "sport"
       },
       {
         name: "Cartoons",
         urlToImage: "https://avatar.amuniversal.com/feature_avatars/recommendation_images/features/jbs/large_rec-201701251718.jpg",
-        color: "light"
+        searchTerm: "cartoon"
       },
       {
         name: "Photography",
         urlToImage: "https://cdn.fstoppers.com/styles/large-16-9/s3/lead/2018/01/jason_matias_for_fstoppers_1.jpg",
-        color: "light"
+        searchTerm: "photo"
       },
     ];
     const { navigate } = this.props.navigation;
@@ -80,7 +80,7 @@ export default class Inquire extends React.Component {
                         style={styles.item}
                         onPress={() => {
                           navigate('CategoryContent', {
-                            categoryName: category.name
+                            categoryName: category.searchTerm
                           });
                         }}
                       >
@@ -90,7 +90,7 @@ export default class Inquire extends React.Component {
                             uri: category.urlToImage
                           }}
                         />
-                        <Text style={styles[category.color+"ItemTitle"]}>
+                        <Text style={styles.ItemTitle}>
                           {category.name}
                         </Text>
                       </TouchableOpacity>
@@ -114,6 +114,13 @@ const styles = StyleSheet.create({
         paddingTop: 10
       }
     })
+  },
+  title: {
+    width: Dimensions.get('window').width - 10,
+    height: 50,
+    margin: 10,
+    marginBottom: 0,
+    fontSize: 25
   },
   headerTextStyle: {
     alignSelf: 'center',
@@ -181,14 +188,9 @@ const styles = StyleSheet.create({
       height: Dimensions.get('window').width * 0.5 - 25,
       resizeMode: 'cover'
     },
-    lightItemTitle: {
+    ItemTitle: {
       fontSize: 25,
       color: '#fff',
       fontWeight: '600'
-    },
-    darkItemTitle: {
-      fontSize: 25,
-      color: '#000',
-      fontWeight: '600'
-    },
+    }
 });
