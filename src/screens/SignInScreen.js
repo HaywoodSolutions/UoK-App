@@ -31,7 +31,7 @@ class SignIn extends React.Component {
     return (
         <View style={backgroundStyle}>
           <Video
-            source={require('../videos/bg.mp4')}
+            source={require('../../videos/bg.mp4')}
             resizeMode="cover"
             shouldPlay
             isMuted={true}

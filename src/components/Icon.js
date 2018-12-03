@@ -4,20 +4,13 @@ import { Text, Button, Card, Divider } from 'react-native-elements';
 import {THEME_COLOR} from "../lib/Constants";
 import moment from 'moment';
 
-export default class TimeTableSession extends React.Component {
+export default class Icon extends React.Component {
   render() {
     const {
-      day,
-      startHour,
-      endHour,
-      title,
-      location,
-      key,
-      startDate
-    } = this.props.session;
-    const { noteStyle } = styles;
-    const startAMPM = (startHour < 13) ? startHour + "AM" : (startHour - 12) + "PM";
-    const endAMPM = (endHour < 13) ? endHour + "AM" : (endHour - 12) + "PM";
+      icon,
+      label
+    } = this.props;
+    //const { noteStyle } = styles;
 
     return (
         <Card key={key} containerStyle={{ backgroundColor: THEME_COLOR, margin: 10 }}>

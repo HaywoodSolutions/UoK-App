@@ -12,24 +12,18 @@ class Lectures extends React.Component {
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.state = {
       messages: ds.cloneWithRows([
-        {name: 'LectureView',
+        {name: 'Lecture View',
          page: 'Lectures'},
         {name: 'Timetable',
-         page: 'Timetable'}]),
+         page: 'Timetable'},
+        {name: 'Newsfeed',
+         page: 'NewsFeed'},
+        {name: 'Student Radio',
+         page: 'StudentRadio'},
+        {name: 'InQuire Media',
+         page: 'Inquire'}]),
     };
   }
-  
-  static navigationOptions = {
-    title: 'KentFlix',
-    headerStyle: {
-      backgroundColor: THEME_COLOR,
-    },
-    headerTintColor: '#fff',
-    headerTitleStyle: {
-      fontWeight: 'bold',
-      fontSize: 30
-    },
-  };
                                   
   render() {
     const { backgroundStyle, noteStyle } = styles;
@@ -41,17 +35,6 @@ class Lectures extends React.Component {
 
     return (
         <View style={backgroundStyle}>
-          <Text
-              style={{
-                fontWeight: '600',
-                fontSize: 30,
-                alignSelf: 'center',
-                color: '#fff',
-                paddingTop: 10
-              }}
-          >
-            {'KentFlix'}
-          </Text>
           <ScrollView>
             <ListView contentContainerStyle={styles.list}
               onLayout={this.onLayout}
@@ -68,12 +51,7 @@ class Lectures extends React.Component {
 const styles = StyleSheet.create({
   backgroundStyle: {
     flex: 1,
-    backgroundColor: THEME_COLOR,
-    ...Platform.select({
-      ios:{
-        paddingTop: 10
-      }
-    })
+    backgroundColor: THEME_COLOR
   },
   headerTextStyle: {
     alignSelf: 'center',
@@ -92,7 +70,7 @@ const styles = StyleSheet.create({
   list: {
       flexDirection: 'column',
       flexWrap: 'wrap',
-      marginTop: 25,
+      marginTop: 10,
       marginLeft: 10,
       marginRight: 10,
       flex: 1

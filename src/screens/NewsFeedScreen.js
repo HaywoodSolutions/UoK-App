@@ -1,48 +1,37 @@
 import React from 'react';
-import {View, Text, StyleSheet, Platform, ScrollView, ListView } from 'react-native';
+import {View, Text, StyleSheet, Platform, ScrollView, ListView, FlatList, Image } from 'react-native';
 import {connect} from "react-redux";
 import {FontAwesome, Entypo} from '@expo/vector-icons';
 import {THEME_COLOR} from "../lib/Constants";
-import firebase from 'firebase';
+import Article from '../components/Article';
+import { getNewsFeed } from "../DataRequests/NewsFeed";
 
-class Lectures extends React.Component {
-  constructor() {
-    super();
-    
-    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-    this.state = {
-      messages: ds.cloneWithRows(['row 1', 'row 2']),
-    };
+
+class NewsFeed extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { articles: [], refreshing: true };
+    this.fetchNews = this.fetchNews.bind(this);
   }
 
   componentDidMount() {
-    const uid = firebase.auth().currentUser.uid;
-
-    const firestore = firebase.firestore();
-    const settings = { timestampsInSnapshots: true };
-    firestore.settings(settings);
-    const messagesRef = firestore.collection('user').doc(uid).collection("notes");
-    
-    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
-    messagesRef.get().then(querySnapshot => {
-      let messages = [];
-      querySnapshot.forEach(doc => {
-        messages.push(doc.data());
-      });
-      this.setState({
-        messages: ds.cloneWithRows(messages),
-      });
-    })
-    .catch((error) => {
-      this.setState({
-        messages: ds.cloneWithRows(["failed"])
-      });
-    });
+    this.fetchNews();
   }
   
-  static navigationOptions = {
-    tabBarIcon: ({tintColor}) => (<Entypo name="video" size={32} color={tintColor}/>)
-  };
+  fetchNews() {
+    getNewsFeed()
+      .then(articles => this.setState({ articles, refreshing: false }))
+      .catch(() => this.setState({ refreshing: false }));
+  }
+  
+  handleRefresh() {
+    this.setState(
+      {
+        refreshing: true
+      },
+      () => this.fetchNews()
+    );
+  }
                                   
   render() {
     const { backgroundStyle, noteStyle } = styles;
@@ -78,17 +67,17 @@ class Lectures extends React.Component {
                 paddingTop: 0
               }}
           >
-            {'Lectures'}
+            {'News Feed'}
           </Text>
           <View  style={backgroundStyle}>
             <ScrollView style={styles.popup}>
-              <ListView contentContainerStyle={styles.list}
-                onLayout={this.onLayout}
-                enableEmptySections={true}
-                dataSource={this.state.messages}
-                removeClippedSubviews={false}
-                renderRow={(rowData) => <Text style={styles.item}>{rowData.note}</Text>}
-              />
+              <FlatList
+                  data={this.state.articles}
+                  renderItem={({ item }) =>  <Article article={item} />}
+                  keyExtractor={item => item.title}
+                  refreshing={this.state.refreshing}
+                  onRefresh={this.handleRefresh.bind(this)}
+                />
             </ScrollView>
           </View>
         </View>
@@ -157,4 +146,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default SessionScreen = connect(mapStateToProps, {})(Lectures);
+export default SessionScreen = connect(mapStateToProps, {})(NewsFeed);
