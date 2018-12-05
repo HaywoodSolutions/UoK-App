@@ -13,7 +13,7 @@ const navigationOptions = ({ navigation }) => ({
     borderBottomWidth:0
   },
   headerTitle: (
-    <Image source={require('../../assets/inquire-christmas-logo.png')} style={{width: 150, height: 25, resizeMode: 'contain' }}/>
+    <Image source={require('../../assets/inquire-christmas-logo.png')} style={{width: 150, height: 30, resizeMode: 'contain' }}/>
   ),
   headerTintColor: 'white',
   gesturesEnabled: true,

@@ -20,6 +20,7 @@ export default class InquireArticle extends React.Component {
       'https://wallpaper.wiki/wp-content/uploads/2017/04/wallpaper.wiki-Images-HD-Diamond-Pattern-PIC-WPB009691.jpg';
     let shortDescription = description.replace(/<\/?[^>]+(>|$)/g, "");
     return (
+      <View>
         <Card
           featuredTitle={title}
           featuredTitleStyle={featuredTitleStyle}
@@ -27,6 +28,7 @@ export default class InquireArticle extends React.Component {
             uri: thumbnail || defaultImg
           }}
         >
+      <View>
           <Text style={{ marginBottom: 10 }}>
             {shortDescription || 'Read More..'}
           </Text>
@@ -37,7 +39,8 @@ export default class InquireArticle extends React.Component {
             <Text style={noteStyle}>{author}</Text>
             <Text style={noteStyle}>{pubDate}</Text>
           </View>
-        </Card>
+      </View>
+        </Card></View>
     );
   }
 }

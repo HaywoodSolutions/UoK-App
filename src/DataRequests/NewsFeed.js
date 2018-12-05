@@ -5,7 +5,7 @@ export async function getNewsFeed() {
   const settings = { timestampsInSnapshots: true };
   firestore.settings(settings);
   
-  const newsFeedRef = firestore.collection('NewsFeed');
+  const newsFeedRef = firestore.collection('NewsFeed').orderBy("publishedAt", "desc");
   
   return newsFeedRef.get().then(querySnapshot => {
     let messages = [];

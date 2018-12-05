@@ -1,23 +1,154 @@
 import React from 'react';
-import {View, Text, StyleSheet, Platform, ScrollView, Image } from 'react-native';
+import {View, Text, StyleSheet, Platform, ScrollView, Image, TouchableHighlight } from 'react-native';
 import {connect} from "react-redux";
 import {FontAwesome, Entypo, MaterialIcons} from '@expo/vector-icons';
 import {THEME_COLOR} from "../lib/Constants";
 import { Card, Header } from 'react-native-elements';
+import { getRadioPlaying } from "../DataRequests/RadioPlaying";
+
+import { Video, Audio } from 'expo';
+
+const LOADING_STRING = 'Loading...';
+const BUFFERING_STRING = 'Buffering...';
 
 import CustomHeader from "../components/CustomHeader";
 
 class StudentRadio extends React.Component {
   constructor(props) {
     super(props);
+    this.index = 0;
+    
+    this.playbackInstance = null;
+    this.state = {
+        shouldPlay: false,
+        isPlaying: false,
+        isLoading: true,
+        volume: 1.0,
+    };
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    this._ismounted = true;
+    Audio.setAudioModeAsync({
+        allowsRecordingIOS: false,
+        interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
+        playsInSilentModeIOS: true,
+        shouldDuckAndroid: true,
+        interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
+    });
+    this._loadNewPlaybackInstance(false);
+    
+    this.timer = setInterval(() => {
+      getRadioPlaying().then((status) => {
+        console.log(status);
+        this.setState({
+          now: status.now,
+          current: status.current,
+          next: status.next
+        });
+      });
+      console.log('I do not leak!');
+    }, 5000);
+  }
+  
+  componentWillUnmount() {
+    this.playbackInstance.stopAsync().then(() => {
+      console.log('******** sound unloaded ********');
+    }).catch((e) => {
+      console.log(e);
+    })
+    clearInterval(this.timer); 
+  }
+  
+  async _loadNewPlaybackInstance(playing) {
+      if (this.playbackInstance != null) {
+          await this.playbackInstance.unloadAsync();
+          this.playbackInstance.setOnPlaybackStatusUpdate(null);
+          this.playbackInstance = null;
+      }
+
+      const source = { uri: "http://stream.csrfm.com/stream.mp3" };
+      const initialStatus = {
+          shouldPlay: playing,
+          rate: 1,
+          volume: this.state.volume,
+      };
+
+      const { sound, status } = await Audio.Sound.create(
+          source,
+          initialStatus,
+          () => {}
+      );
+      this.playbackInstance = sound;
+      this._updateScreenForLoading(false);
+  }
+  
+  _updateScreenForLoading(isLoading) {
+		if (isLoading) {
+			this.setState({
+				isPlaying: false,
+				isLoading: true,
+			});
+		} else {
+			this.setState({
+				isLoading: false,
+			});
+		}
+	}
          
+    _onPlaybackStatusUpdate = status => {
+		if (status.isLoaded) {
+			this.setState({
+				shouldPlay: status.shouldPlay,
+				isPlaying: status.isPlaying,
+				volume: status.volume,
+			});
+			if (status.didJustFinish) {
+				this._updatePlaybackInstanceForIndex(true);
+			}
+		} else {
+			if (status.error) {
+				console.log(`FATAL PLAYER ERROR: ${status.error}`);
+			}
+		}
+	};
+
+	async _updatePlaybackInstanceForIndex(playing) {
+		this._updateScreenForLoading(true);
+		this._loadNewPlaybackInstance(playing);
+	}
+
+	_onPlayPausePressed = () => {
+		if (this.playbackInstance != null) {
+			if (this.state.isPlaying) {
+				//this.playbackInstance.pauseAsync();
+                this._onStopPressed();
+			} else {
+				this.playbackInstance.playAsync();
+			}
+            this.setState({
+				isPlaying: !this.state.isPlaying,
+			});
+		}
+	};
+
+	_onStopPressed = () => {
+		if (this.playbackInstance != null) {
+			this.playbackInstance.stopAsync();
+		}
+	};
+
+	_onVolumeSliderValueChange = value => {
+		if (this.playbackInstance != null) {
+			this.playbackInstance.setVolumeAsync(value);
+		}
+	};
+
+
   static navigationOptions = {
     tabBarIcon: ({tintColor}) => (<MaterialIcons name="speaker" size={32} color={tintColor}/>)
   };
-                                  
+                                                
   render() {
     const { backgroundStyle, noteStyle } = styles;
     const {
@@ -42,10 +173,29 @@ class StudentRadio extends React.Component {
             <View style={styles.row}>
               <View style={styles.radioPlayWrapper}>
                 <View style={styles.iconWrapper}>
-                  <FontAwesome name="play" size={75} color={'#fff'}/>
+                  <TouchableHighlight
+                      onPress={this._onPlayPausePressed}
+                      disabled={this.state.isLoading}
+                    >
+                    {this.state.isPlaying ? (
+                        <MaterialIcons
+                            name="pause"
+                            size={75}
+                            color="#fff"
+                        />
+                    ) : (
+                        <MaterialIcons
+                            name="play-arrow"
+                            size={75}
+                            color="#fff"
+                        />
+                    )}
+
+		          </TouchableHighlight>
                 </View>
               </View>
             </View>
+            
           </ScrollView>
         </View>
     );
@@ -93,8 +243,7 @@ const styles = StyleSheet.create({
   iconWrapper: {
     flex: 1,
     justifyContent:"center",
-    alignItems:"center",
-    marginLeft: 15
+    alignItems:"center"
   },
   radioIcon: {
     flex: 1,

@@ -72,7 +72,7 @@ class Inquire extends React.Component {
 
     return (
         <View style={backgroundStyle}>
-            //<ScrollView style={styles.popup}>
+            <ScrollView style={styles.popup}>
               <FlatList
                   data={this.state.feed}
                   renderItem={({ item }) =>  
@@ -90,7 +90,7 @@ class Inquire extends React.Component {
                   onRefresh={this.handleRefresh.bind(this)}
                   onEndReached={() => this.loadMore()}
                 />
-           // </ScrollView>
+           </ScrollView>
         </View>
     );
   }

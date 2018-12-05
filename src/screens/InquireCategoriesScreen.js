@@ -22,47 +22,47 @@ export default class Inquire extends React.Component {
     const categories = [
       {
         name: "Opinion",
-        urlToImage: "https://mogoartsmarketing.com/wp-content/uploads/2018/06/audience-828584_960_720-1288x724.jpg",
+        urlToImage: require('../../assets/opinion.jpg'),
         searchTerm: "opintion"
       },
       {
         name: "Lifestyle",
-        urlToImage: "https://eurozpravy.cz/pictures/photo/2017/04/18/running-573762-1920-0ac0b19f35.jpg",
+        urlToImage: require('../../assets/lifestyle.jpg'),
         searchTerm: "life"
       },
       {
         name: "Culture",
-        urlToImage: "https://i.ytimg.com/vi/1ccGvTIHFaQ/maxresdefault.jpg",
+        urlToImage: require('../../assets/culture.jpg'),
         searchTerm: "culture"
       },
       {
         name: "Entertainment",
-        urlToImage: "https://www.dailyecho.co.uk/resources/images/7704451/?type=responsive-gallery-fullscreen",
+        urlToImage: require('../../assets/entertainment.jpg'),
         searchTerm: "entertainment"
       },
       {
         name: "Science",
-        urlToImage: "http://www.imperial.ac.uk/news/image/mainnews2012/34847.jpg",
+        urlToImage: require('../../assets/science.jpg'),
         searchTerm: "science"
       },
       {
         name: "Technology",
-        urlToImage: "https://i1.wp.com/www.palo-alto-et-compagnie.com/wp-content/uploads/2016/11/lunettes-filtrantes-r%C3%A9alit%C3%A9.jpg?fit=480%2C720",
+        urlToImage: require('../../assets/technology.jpg'),
         searchTerm: "tech"
       },
       {
         name: "Sport",
-        urlToImage: "https://i2.wp.com/digital-photography-school.com/wp-content/uploads/2017/11/cross-lighting-title.jpg?resize=750%2C500&ssl=1",
+        urlToImage: require('../../assets/sport.jpg'),
         searchTerm: "sport"
       },
       {
         name: "Cartoons",
-        urlToImage: "https://avatar.amuniversal.com/feature_avatars/recommendation_images/features/jbs/large_rec-201701251718.jpg",
+        urlToImage: require('../../assets/cartoons.jpg'),
         searchTerm: "cartoon"
       },
       {
         name: "Photography",
-        urlToImage: "https://cdn.fstoppers.com/styles/large-16-9/s3/lead/2018/01/jason_matias_for_fstoppers_1.jpg",
+        urlToImage: require('../../assets/photography.jpg'),
         searchTerm: "photo"
       },
     ];
@@ -86,9 +86,7 @@ export default class Inquire extends React.Component {
                       >
                         <Image
                           style={styles.itemIcon}
-                          source={{
-                            uri: category.urlToImage
-                          }}
+                          source={category.urlToImage}
                         />
                         <Text style={styles.ItemTitle}>
                           {category.name}
