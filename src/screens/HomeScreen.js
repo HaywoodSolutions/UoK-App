@@ -1,28 +1,23 @@
 import React from 'react';
-import {View, Text, StyleSheet, Platform, ScrollView, ListView } from 'react-native';
+import {View, Text, StyleSheet, Platform, ScrollView, FlatList } from 'react-native';
 import {connect} from "react-redux";
 import {FontAwesome, Entypo} from '@expo/vector-icons';
 import {THEME_COLOR} from "../lib/Constants";
-import firebase from 'firebase';
+
+import { getCustomHomePage } from "../DataRequests/Home";
 
 class Lectures extends React.Component {
   constructor() {
     super();
-    
-    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.state = {
-      messages: ds.cloneWithRows([
-        {name: 'Lecture View',
-         page: 'Lectures'},
-        {name: 'Timetable',
-         page: 'Timetable'},
-        {name: 'Newsfeed',
-         page: 'NewsFeed'},
-        {name: 'Student Radio',
-         page: 'StudentRadio'},
-        {name: 'InQuire Media',
-         page: 'Inquire'}]),
+      icons: []
     };
+  }
+  
+  componentDidMount() {
+    getCustomHomePage()
+      .then(icons => this.setState({ icons: icons, refreshing: false }))
+      .catch(() => this.setState({ refreshing: false }));
   }
                                   
   render() {
@@ -35,13 +30,14 @@ class Lectures extends React.Component {
 
     return (
         <View style={backgroundStyle}>
-          <ScrollView>
-            <ListView contentContainerStyle={styles.list}
-              onLayout={this.onLayout}
-              enableEmptySections={true}
-              dataSource={this.state.messages}
-              renderRow={(rowData) => <Text style={styles.item} onPress={() => this.props.navigation.navigate(rowData.page)}>{rowData.name}</Text>}
-            />
+          <ScrollView style={styles.list}>
+            <FlatList
+                data={this.state.icons}
+                renderItem={({ item }) =>   <Text key={item.name} style={styles.item} onPress={() => this.props.navigation.navigate(item.page)}>{item.name}</Text>}
+                keyExtractor={item => item.name}
+                refreshing={this.state.refreshing}
+              />
+              
           </ScrollView>
         </View>
     );

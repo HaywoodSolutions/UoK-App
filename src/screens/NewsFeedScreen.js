@@ -5,7 +5,7 @@ import {FontAwesome, Entypo} from '@expo/vector-icons';
 import {THEME_COLOR} from "../lib/Constants";
 import Article from '../components/Article';
 import { getNewsFeed } from "../DataRequests/NewsFeed";
-
+//https://www.googleapis.com/youtube/v3/search?key=AIzaSyDZtddbL-8NNEYLOz51FesjspYJ7KXyROs&channelId=UCdBBkGOOyTZrIRaKrFKq8cw&part=snippet,id&order=date&maxResults=40
 
 class NewsFeed extends React.Component {
   constructor(props) {

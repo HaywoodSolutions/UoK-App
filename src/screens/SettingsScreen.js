@@ -6,7 +6,7 @@ import {signOut} from '../actions';
 import {Button} from '../components';
 import {THEME_COLOR} from "../lib/Constants";
 
-class Profile extends React.Component {
+class Settings extends React.Component {
   static navigationOptions = {
     tabBarIcon: ({ tintColor }) => (<FontAwesome name="user" size={32} color={tintColor}/>),
   };
@@ -86,4 +86,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default ProfileScreen = connect(mapStateToProps, { signOut })(Profile);
+export default ProfileScreen = connect(mapStateToProps, { signOut })(Settings);

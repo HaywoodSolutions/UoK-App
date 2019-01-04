@@ -78,7 +78,7 @@ class Inquire extends React.Component {
                   renderItem={({ item }) =>  
                       (<TouchableOpacity
                         onPress={() => {
-                          navigate('ViewArticle', {
+                          navigate('viewarticle', {
                             articleTitle: item.title
                           });
                         }}

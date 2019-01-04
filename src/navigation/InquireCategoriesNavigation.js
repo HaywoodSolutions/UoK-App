@@ -3,25 +3,22 @@ import { createStackNavigator } from 'react-navigation';
 import InquireViewCategoryScreen from '../screens/InquireViewCategoryScreen';
 import InquireCategories from '../screens/InquireCategoriesScreen';
 import {THEME_COLOR} from "../lib/Constants";
-import { Button, Image } from 'react-native';
+import BackButton from '../components/BackButton';
+import { Image } from 'react-native';
 
 const navigationOptions = ({ navigation }) => ({
-  headerTitle: "View Category",
-  headerBackTitle: `Home`,
+  title: `InQuire Media`,
   headerStyle: {
     backgroundColor: THEME_COLOR,
-    borderBottomWidth:0
+    borderBottomWidth: 0
   },
   headerTitle: (
     <Image source={require('../../assets/inquire-christmas-logo.png')} style={{width: 150, height: 30, resizeMode: 'contain' }}/>
   ),
   headerTintColor: 'white',
   gesturesEnabled: true,
-  headerLeft: (<Button
-                title="< Categories"
-                color="#fff"
-                onPress={() => navigation.goBack(null)} />),
-})
+  headerLeft: BackButton(navigation)
+});
 
 export default createStackNavigator(
     {
@@ -33,8 +30,6 @@ export default createStackNavigator(
     {
       initialRouteName: 'CategoryContent',
       animationEnabled: true,
-      swipeEnabled: true,
-      defaultNavigationOptions: {
-      }
+      swipeEnabled: true
     }
 );

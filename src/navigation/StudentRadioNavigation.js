@@ -1,22 +1,33 @@
 import React from 'react';
 import { createStackNavigator } from 'react-navigation';
-import StudentRadioScreen from '../screens/StudentRadioScreen';
+import StudentRadioHomeNavigation from './StudentRadioHomeNavigation';
+import StudentRadioPlayerScreen from '../screens/StudentRadioPlayerScreen';
+import BackButton from '../components/BackButton';
 import {THEME_COLOR} from "../lib/Constants";
-import CustomHeader from "../components/CustomHeader";
 
 export default createStackNavigator(
     {
       Home: {
-        screen: StudentRadioScreen,
-        navigationOptions: () => ({
-          header: null
-        }),
+        screen: StudentRadioHomeNavigation,
+        navigationOptions: ({ navigation }) => ({
+          title: `Canterbury Student Radio`,
+          headerStyle: {
+            backgroundColor: '#CB2228',
+            borderBottomWidth: 0
+          },
+          headerTitleStyle: {
+            color: '#fff'
+          },
+          headerTintColor: 'white',
+          gesturesEnabled: true,
+          headerLeft: BackButton(navigation)
+        })
       },
     },
     {
       initialRouteName: 'Home',
-       navigationOptions: {
-        header: null
-      }
-    }
+      animationEnabled: true,
+      swipeEnabled: true,
+      animationEnabled: true
+    },
 );

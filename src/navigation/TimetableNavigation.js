@@ -1,57 +1,74 @@
 import React from 'react';
-import { createBottomTabNavigator } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation';
 import TimetableScreen from '../screens/TimetableScreen';
+import TimetableViewEventScreen from '../screens/TimetableViewEventScreen';
+import TimetableSettingsScreen from '../screens/TimetableSettingsScreen';
+import TimetableSetiCalURLScreen from '../screens/TimetableSetiCalURLScreen';
+import BackButton from '../components/BackButton';
+import SettingsButton from '../components/SettingsButton';
 import {THEME_COLOR} from "../lib/Constants";
-import { Button } from 'react-native';
 
-const navigationOptions = ({ navigation }) => ({
-  headerTitle: "View Category",
-  headerBackTitle: `Home`,
-  headerStyle: {
-    backgroundColor: THEME_COLOR,
-    borderBottomWidth:0
-  },
-  headerTitleStyle: {
-    color: '#fff',
-    fontSize: 20
-  },
-  headerTintColor: 'white',
-  gesturesEnabled: true,
-  headerCenter: (<Button
-                title="< Go Back"
-                color="#fff"
-                onPress={() => navigation.goBack(null)} />),
-  headerLeft: (<Button
-                title="< Go Back"
-                color="#fff"
-                onPress={() => navigation.goBack(null)} />),
-})
-
-export default createBottomTabNavigator(
+export default createStackNavigator(
     {
       Timetable: {
         screen: TimetableScreen,
-        navigationOptions: navigationOptions
+        navigationOptions: ({ navigation }) => ({
+          title: `Timetable`,
+          headerBackTitle: `Timetable`,
+          headerStyle: {
+            backgroundColor: THEME_COLOR,
+            borderBottomWidth: 0
+          },
+          headerTitleStyle: {
+            color: '#fff'
+          },
+          headerTintColor: 'white',
+          gesturesEnabled: true,
+          headerLeft: BackButton(navigation),
+          headerRight: SettingsButton(navigation)
+        })
+      },
+      SetURL: {
+        screen: TimetableSetiCalURLScreen,
+        navigationOptions: ({ navigation }) => ({
+          title: `Set Timetable iCal`,
+          headerBackTitle: `Set Timetable iCal`,
+          headerStyle: {
+            backgroundColor: THEME_COLOR,
+            borderBottomWidth: 0
+          },
+          headerTitleStyle: {
+            color: '#fff'
+          },
+          headerTintColor: 'white',
+          gesturesEnabled: true,
+          headerLeft: BackButton(navigation)
+        })
+      },
+      ViewEvent: {
+        screen: TimetableViewEventScreen
+      },
+      Settings: {
+        screen: TimetableSettingsScreen,
+        navigationOptions: ({ navigation }) => ({
+          title: `Timetable Settings`,
+          headerStyle: {
+            backgroundColor: THEME_COLOR,
+            borderBottomWidth: 0
+          },
+          headerTitleStyle: {
+            color: '#fff'
+          },
+          headerTintColor: 'white',
+          gesturesEnabled: true,
+          headerLeft: BackButton(navigation)
+        })
       }
     },
     {
+      mode: 'modal',
       initialRouteName: 'Timetable',
-      tabBarPosition: 'bottom',
       animationEnabled: true,
-      swipeEnabled: false,
-      tabBarOptions: {
-        showLabel: true,
-        activeTintColor: THEME_COLOR,
-        inactiveTintColor: 'lightgray',
-      },
-      defaultNavigationOptions: {
-        headerStyle: {
-          backgroundColor: '#f4511e',
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-          fontWeight: 'bold',
-        },
-      }
+      swipeEnabled: false
     }
 );

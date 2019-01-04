@@ -1,32 +1,31 @@
 import React from 'react';
-import { createBottomTabNavigator } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation';
 import NewsFeedScreen from '../screens/NewsFeedScreen';
+import BackButton from '../components/BackButton';
 import {THEME_COLOR} from "../lib/Constants";
 
-export default createBottomTabNavigator(
+export default createStackNavigator(
     {
       NewsFeed: {
         screen: NewsFeedScreen,
+        navigationOptions: ({ navigation }) => ({
+          title: `Newsfeed`,
+          headerBackTitle: `Newsfeed`,
+          headerStyle: {
+            backgroundColor: THEME_COLOR,
+            borderBottomWidth: 0
+          },
+          headerTitleStyle: {
+            color: '#fff'
+          },
+          headerTintColor: 'white',
+          gesturesEnabled: true,
+          headerLeft: BackButton(navigation)
+        })
       },
     },
     {
       initialRouteName: 'NewsFeed',
-      tabBarPosition: 'bottom',
-      animationEnabled: true,
-      swipeEnabled: false,
-      tabBarOptions: {
-        showLabel: true,
-        activeTintColor: THEME_COLOR,
-        inactiveTintColor: 'lightgray',
-      },
-      defaultNavigationOptions: {
-        headerStyle: {
-          backgroundColor: '#f4511e',
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-          fontWeight: 'bold',
-        },
-      }
+      animationEnabled: true
     }
 );

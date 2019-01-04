@@ -1,4 +1,29 @@
+import firebase from 'firebase';
+import { AsyncStorage } from "react-native";
+
 export async function getTimeTable() {
+  const firestore = firebase.firestore();
+  const settings = { timestampsInSnapshots: true };
+  firestore.settings(settings);
+  
+  const uid = firebase.auth().currentUser.uid;
+  
+  const userRef = firestore.collection('user').doc(uid);
+  return userRef.get().then(doc => {
+    const userData = doc.data();
+    const timetableID = userData.timtableID;
+    if (timetableID) {
+      return loadTimeTable(timetableID);
+    } else {
+      return {
+        storedURL: false
+      };
+    }
+    return userData.timtable;
+  });
+}
+
+function loadTimeTable(id) {
   const getWeekNo = function (d2) {
     var t2 = d2.getTime();
     var t1 = new Date("Mon Dec 29 1969 00:00:00").getTime();
@@ -18,10 +43,9 @@ export async function getTimeTable() {
         const weekNo = getWeekNo(new Date(week.week_beginning_date.replace(":000", "").replace("Feb4", "Feb 4")));
         weekObj[weekNo] = week.week_beginning;
       }
-    console.log(weekObj);
       return weekObj;
     }).then((weekObj) => {
-      return fetch('https://www.kent.ac.uk/timetabling/ical/139463.ics')
+      return fetch('https://www.kent.ac.uk/timetabling/ical/'+id+'.ics')
         .then((response) => {
            return response.text();
         }).then((response) => {
@@ -35,7 +59,6 @@ export async function getTimeTable() {
               if (lines[i].includes('DTSTART')) {
                 var date = lines[i].split(":");
                 var dateObj = new Date(date[1].substr(0,4) + "/" + date[1].substr(4,2)  + "/" + date[1].substr(6,2) + " " + date[1].substr(9,2)+ ":" + date[1].substr(11,2)+":00");
-                console.log(date[1].substr(0,4) + "-" + date[1].substr(4,2)  + "-" + date[1].substr(6,2) + " " + date[1].substr(9,2)+ ":" + date[1].substr(11,2)  + dateObj.toString());
                 currentWeek = getWeekNo(dateObj); 
                 if (!events[currentWeek]) {
                   events[currentWeek] = [];
@@ -66,9 +89,12 @@ export async function getTimeTable() {
               }
             }
             return {
-              rawWeeks: events,
-              weekNames: weekObj,
-              currentWeek: getWeekNo(new Date())
+              storedURL: true,
+              timetable: {
+                rawWeeks: events,
+                weekNames: weekObj,
+                currentWeek: getWeekNo(new Date())
+              }
             };
           }
         )

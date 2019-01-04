@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, Platform, ScrollView, ListView, SectionList, FlatList } from 'react-native';
+import {View, Text, StyleSheet, Platform, ScrollView, ListView, SectionList, FlatList, TouchableOpacity, AsyncStorage } from 'react-native';
 import {connect} from "react-redux";
 import {FontAwesome, Entypo} from '@expo/vector-icons';
 import {THEME_COLOR} from "../lib/Constants";
@@ -15,7 +15,6 @@ class Timetable extends React.Component {
     super();
     this.state = {
       currentWeekData: [],
-      currentWeek: 0,
       selectedWeek: 0,
       weekNames: [],
       rawWeeks: {},
@@ -24,13 +23,19 @@ class Timetable extends React.Component {
     };
   }
   
+  getCurrentWeek() {
+    var t2 = new Date().getTime();
+    var t1 = new Date("Mon Dec 29 1969 00:00:00").getTime();
+    return parseInt((t2-t1)/(24*3600*1000*7));
+  }
+  
   nextWeek() {
     this.setState(
       {
         currentWeekData: [],
         refreshing: true
       },
-      () => this.loadWeek(1)
+      () => this.loadWeek(this.state.selectedWeek + 1)
     );
   }
   
@@ -40,49 +45,57 @@ class Timetable extends React.Component {
         currentWeekData: [],
         refreshing: true
       },
-      () => this.loadWeek(-1)
+      () => this.loadWeek(this.state.selectedWeek - 1)
     );
   }
   
   loadWeek(weekNo) {
-    const newWeekNo= this.state.selectedWeek + weekNo;
-    const weeksessions = this.state.weekNames[newWeekNo];
+    const weekName = this.state.weekNames[weekNo];
     this.setState({
-      selectedWeek: newWeekNo,
-      selectedWeekName: weeksessions
+      selectedWeek: weekNo,
+      selectedWeekName: weekName
     });
-    let that = this;
-    setTimeout(function(){that.refreshWeek()}, 100);
+    this.refreshWeek(weekNo);
   }
   
-  refreshWeek() {    
-    const data = (this.state.rawWeeks[this.state.selectedWeek]) ? this.state.rawWeeks[this.state.selectedWeek].sort(function(a, b){return b.key < a.key}) : [];
-    
-    this.setState({
-      currentWeekData: data,
-      refreshing: false
-    });
-    console.log(this.state.rawWeeks[this.state.selectedWeek]);
+  refreshWeek(weekNo) {  
+    return AsyncStorage.getItem("TimetableStoreage:"+weekNo).then((data) => {
+      this.setState({
+        currentWeekData: JSON.parse(data),
+        refreshing: false
+      });
+    })
   }
 
   fetchTimeTable() {
-     getTimeTable().then(timetable => {
-          this.setState({
-            rawWeeks: timetable.rawWeeks,
-            weekNames: timetable.weekNames,
-            currentWeek: timetable.currentWeek,
-            selectedWeek: timetable.currentWeek
-          }, () => this.loadWeek(0))
-       })
+     getTimeTable().then(data => {
+       if (data.storedURL) {
+         this.setState(
+            {
+              weekNames: data.timetable.weekNames,
+              refreshing: true
+            },
+            () => this.loadWeek(this.getCurrentWeek())
+          );
+          for (var weekID in data.timetable.rawWeeks) {
+            AsyncStorage.setItem("TimetableStoreage:"+weekID, JSON.stringify(data.timetable.rawWeeks[weekID]));
+            console.log(weekID);
+          }
+          this.loadWeek(this.getCurrentWeek());
+        } else {
+         this.props.navigation.navigate("SetURL");
+        }
+      })
       .catch(() => this.setState({ refreshing: false }));
   }
   
   componentDidMount() {
-    this.setState({
-      currentWeekData: [],
-      refreshing: true
-    });
-    this.fetchTimeTable();
+    this.setState(
+      {
+        refreshing: true
+      },
+      () => this.fetchTimeTable()
+    );
   }
   
   static navigationOptions = {
@@ -110,12 +123,13 @@ class Timetable extends React.Component {
       alert(error);
     }
 
+    const { navigate } = this.props.navigation;
     return (
         <View style={backgroundStyle}>
           <View style={styles.popup}>
             <View style={styles.weekSelector}>
                <Button
-                  title={loading ? '' : '<'}
+                  title={(<Entypo name="chevron-left" size={28} color={"white"} />)}
                   style={{
                     height: 60,
                     marginLeft: 5,
@@ -144,7 +158,7 @@ class Timetable extends React.Component {
                 </Text>
               </View>
               <Button
-                  title={loading ? '' : '>'}
+                  title={(<Entypo name="chevron-right" size={28} color={"white"} />)}
                   style={{
                     height: 60,
                     marginRight: 5,
@@ -163,7 +177,16 @@ class Timetable extends React.Component {
             <ScrollView>
               <FlatList
                 data={this.state.currentWeekData}
-                renderItem={({ item }) =>  <TimeTableSlot key={item.key} session={item} />}
+                renderItem={({ item, index }) =>  <TouchableOpacity
+                        onPress={() => {
+                          navigate('ViewEvent', {
+                            event: item
+                          });
+                        }}
+                         key={item.key} 
+                      >
+                        <TimeTableSlot session={item} />
+                      </TouchableOpacity> }
                 keyExtractor={(item, index) => item.key}
                 refreshing={this.state.refreshing}
                 onRefresh={this.handleRefresh.bind(this)}
@@ -243,12 +266,4 @@ const styles = StyleSheet.create({
   }
 });
 
-const mapStateToProps = (state) => {
-  return {
-    loading: state.Session.loading,
-    error: state.Session.error,
-    note: state.Session.note
-  };
-};
-
-export default SessionScreen = connect(mapStateToProps, {})(Timetable);
+export default Timetable;

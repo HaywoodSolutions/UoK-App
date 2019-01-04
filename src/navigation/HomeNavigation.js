@@ -1,118 +1,96 @@
 import { createStackNavigator } from 'react-navigation';
 
-import HomeScreen from '../screens/HomeScreen';
+
+import React from 'react';
+
+import { Button, TouchableOpacity, View, Text } from 'react-native';
+import MainMenu from './MainMenuNavigation';
 import LecturesNavigation from './LecturesNavigation';
 import TimetableNavigation from './TimetableNavigation';
 import NewsFeedNavigation from './NewsFeedNavigation';
 import StudentRadioNavigation from './StudentRadioNavigation';
 import InquireNavigation from './InquireNavigation';
-//import CustomHeader from "../components/CustomHeader";
+import StageCoachNavigation from './StageCoachNavigation';
+import SettingsScreen from '../screens/SettingsScreen';
+import Title from '../components/Title';
 import {THEME_COLOR} from "../lib/Constants";
 
 export default createStackNavigator({
-      Home: {
-        screen: HomeScreen,
-        navigationOptions: () => ({
-          headerTitle: "KentFlix",
-          headerBackTitle: `Home`,
-          headerStyle: {
-            backgroundColor: THEME_COLOR,
-            borderBottomWidth:0
-          },
-          headerTitleStyle: {
-            color: '#fff',
-            fontSize: 20
-          },
-          headerTintColor: 'white',
-          gesturesEnabled: true
-        }),
-      },
-      Lectures: {
-        screen: LecturesNavigation,
-        navigationOptions: () => ({
-          title: `Lectures`,
-          headerBackTitle: `Lectures`,
-          headerStyle: {
-            backgroundColor: THEME_COLOR,
-            borderBottomWidth:0
-          },
-          headerTitleStyle: {
-            color: '#fff',
-          },
-          headerTintColor: 'white',
-          gesturesEnabled: true
-        }),
-      },
-      Timetable: {
-        screen: TimetableNavigation,
-        navigationOptions: () => ({
-          title: `Timetable`,
-          headerBackTitle: `Timetable`,
-          headerStyle: {
-            backgroundColor: THEME_COLOR,
-            borderBottomWidth:0
-          },
-          headerTitleStyle: {
-            color: '#fff',
-          },
-          headerTintColor: 'white',
-          gesturesEnabled: true
-        }),
-      },
-      NewsFeed: {
-        screen: NewsFeedNavigation,
-        navigationOptions: () => ({
-          title: `Newsfeed`,
-          headerBackTitle: `Newsfeed`,
-          headerStyle: {
-            backgroundColor: THEME_COLOR,
-            borderBottomWidth:0
-          },
-          headerTitleStyle: {
-            color: '#fff',
-          },
-          headerTintColor: 'white',
-          gesturesEnabled: true
-        }),
-      },
-      StudentRadio: {
-        screen: StudentRadioNavigation,
-        navigationOptions: () => ({
-          title: `SU Radio`,
-          headerBackTitle: `SU Radio`,
-          headerStyle: {
-            backgroundColor: '#CB2228',
-            borderBottomWidth:0
-          },
-          headerTitleStyle: {
-            color: '#fff',
-          },
-          headerTintColor: 'white',
-          gesturesEnabled: true
-        }),
-      },
-      Inquire: {
-        screen: InquireNavigation,
-        navigationOptions: () => ({
-          header: null
-        }),
-      }
+    Home: {
+      screen: MainMenu,
+      navigationOptions: () => ({
+        header: null
+      })
     },
-    {
-      mode: "card",
-      initialRouteName: "Home",
-      defaultNavigationOptions: {
-        title: `Lectures1`,
-        headerBackTitle: `Lectures2`,
+    Lectures: {
+      screen: LecturesNavigation,
+      navigationOptions: () => ({
+        header: null
+      })
+    },
+    Timetable: {
+      screen: TimetableNavigation,
+      navigationOptions: () => ({
+        header: null
+      })
+    },
+    NewsFeed: {
+      screen: NewsFeedNavigation,
+      navigationOptions: () => ({
+        header: null
+      })
+    },
+    StudentRadio: {
+      screen: StudentRadioNavigation,
+      navigationOptions: () => ({
+        header: null
+      })
+    },
+    Inquire: {
+      screen: InquireNavigation,
+      navigationOptions: () => ({
+        header: null
+      }),
+    },
+    StageCoach: {
+      screen: StageCoachNavigation,
+      navigationOptions: () => ({
+        header: null
+      }),
+    },
+    Settings: {
+      screen: SettingsScreen,
+      navigationOptions: () => ({
+        headerTitle: "KentFlix",
+        headerBackTitle: `Home`,
         headerStyle: {
           backgroundColor: THEME_COLOR,
+          borderBottomWidth:0
         },
         headerTitleStyle: {
           color: '#fff',
+          fontSize: 20
         },
-        headerTintColor: 'white'
-      }
+        headerTintColor: 'white',
+        gesturesEnabled: true
+      }),
+    },
+  },
+  {
+    mode: "card",
+    initialRouteName: "Home",
+    defaultNavigationOptions: {
+      title: `Lectures1`,
+      headerBackTitle: `Lectures2`,
+      headerStyle: {
+        backgroundColor: THEME_COLOR,
+      },
+      headerTitleStyle: {
+        color: '#fff',
+      },
+      headerTintColor: 'white'
     }
+  }
 );
 
 /*
