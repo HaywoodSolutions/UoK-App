@@ -12,6 +12,12 @@ import StudentRadioNavigation from './StudentRadioNavigation';
 import InquireNavigation from './InquireNavigation';
 import StageCoachNavigation from './StageCoachNavigation';
 import SettingsScreen from '../screens/SettingsScreen';
+import PCAvailabilityNavigation from './PCAvailabilityNavigation';
+import SDSNavigation from './SDSNavigation';
+import TechSupportNavigation from './TechSupportNavigation';
+import ArticleNavigation from './Articles/ArticleNavigation';
+
+import SocietiesNavigation from './SocietiesNavigation';
 import Title from '../components/Title';
 import {THEME_COLOR} from "../lib/Constants";
 
@@ -24,6 +30,12 @@ export default createStackNavigator({
     },
     Lectures: {
       screen: LecturesNavigation,
+      navigationOptions: () => ({
+        header: null
+      })
+    },
+    PCAvailability: {
+      screen: PCAvailabilityNavigation,
       navigationOptions: () => ({
         header: null
       })
@@ -54,6 +66,30 @@ export default createStackNavigator({
     },
     StageCoach: {
       screen: StageCoachNavigation,
+      navigationOptions: () => ({
+        header: null
+      }),
+    },
+    Societies: {
+      screen: SocietiesNavigation,
+      navigationOptions: () => ({
+        header: null
+      }),
+    },
+    TechSupport: {
+      screen: TechSupportNavigation,
+      navigationOptions: () => ({
+        header: null
+      }),
+    },
+    SDS: {
+      screen: SDSNavigation,
+      navigationOptions: () => ({
+        header: null
+      }),
+    },
+    Articles: {
+      screen: ArticleNavigation,
       navigationOptions: () => ({
         header: null
       }),

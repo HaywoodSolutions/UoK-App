@@ -1,8 +1,9 @@
 import React from 'react';
-import {View, Text, StyleSheet, Platform, ScrollView, ListView, FlatList, Image, Dimensions } from 'react-native';
+import {View, Text, StyleSheet, Platform, ScrollView, ListView, FlatList, Dimensions } from 'react-native';
 import {connect} from "react-redux";
 import {FontAwesome, Entypo} from '@expo/vector-icons';
 import {THEME_COLOR} from "../lib/Constants";
+import ScaledImage from "../components/ScaledImage";
 import { getInquireFeed } from "../DataRequests/Inquire";
 
 const ITEMS_PER_PAGE = 10;
@@ -35,6 +36,7 @@ class InquireViewCategory extends React.Component {
         } else {
           article.content = this.processText(article.content);
           article.authors = "Author(s): "+article.author;
+          article.publishedAt = "Published at "+article.pubDate.substr(0,16);
           this.setState({
             article: article,
             refreshing: false
@@ -61,22 +63,16 @@ class InquireViewCategory extends React.Component {
 `);
     text = text.replace(/((<div>)|(<\/div>))/g, "");
     text = text.split(/((<img src="[a-z://.0-9_~]+)">)/g);
-    console.log(text);
     let result = [];
     let key = 0;
     for(var i = 0; i < text.length; i++) {
       if (text[i].match(/((<img src="[a-z://.0-9_~]+)">)/g)) {
         result.push(<View 
                 key={key}  style={{marginBottom: 7.5, marginTop: 2.5}}>
-              <Image
-                source={{
-                  uri: text[i].replace(/((<img src=")|(">))/g, "")
-                }}
-                style={{
-                  width: Dimensions.get('window').width - 25,
-                  height: Dimensions.get('window').width / 1.8,
-                  resizeMode: 'cover'
-                }}/>
+              <ScaledImage
+                uri={text[i].replace(/((<img src=")|(">))/g, "")}
+                width={Dimensions.get('window').width - 25} 
+              />
             </View>);
         key++;
         i = i + 1;
@@ -91,7 +87,7 @@ class InquireViewCategory extends React.Component {
     }
     return result;
   }
-
+                    
   render() {
     const { backgroundStyle, noteStyle } = styles;
     const {
@@ -110,6 +106,7 @@ class InquireViewCategory extends React.Component {
               <Text style={styles.title}>{this.state.article.title}</Text>
               <Text style={styles.authors}>{this.state.article.authors}</Text>
               <View style={styles.articleContent}>{this.state.article.content}</View>
+              <Text style={styles.date}>{this.state.article.publishedAt}</Text>
            </ScrollView>
         </View>
     );
@@ -179,10 +176,15 @@ const styles = StyleSheet.create({
     fontWeight: '600'
   },
   authors: {
-    marginBottom: 10,
+    marginBottom: 5,
     fontSize: 15,
     color: '#b2bec3'
   },
+  date: {
+    marginTop: 10,
+    fontSize: 15,
+    color: '#b2bec3'
+  }
 });
 
 const mapStateToProps = (state) => {

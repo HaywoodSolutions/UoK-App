@@ -7,9 +7,36 @@ export async function getCustomHomePage() {
   
   const uid = firebase.auth().currentUser.uid;
   
-  const menuScreenRef = firestore.collection('user').doc(uid).collection('private').doc("menuScreen");
+  let renameScreens = {
+    "Lectures": "Lecture View",
+    "Timetable": "Timetable",
+    "NewsFeed": "Newsfeed",
+    "StudentRadio": "Student Radio",
+    "StageCoach": "Buses",
+    "Settings": "Settings",
+    "PCAvailability": "PC Availablility",
+    "Societies": "Societies",
+    "TechSupport": "Tech Support",
+    "Inquire": "Inquire Media",
+    "SDS": "SDS",
+    "Articles": "Articles",
+  }
+  
+  let myDepartment = "SoC";
+  
+  const menuScreenRef = firestore.collection('constants').doc("system");
   return menuScreenRef.get().then(doc => {
-    const menuScreen = doc.data();
-    return menuScreen.icons;
+    const system = doc.data();
+    const routes = [];
+    
+    for (let screenID in system.services) {
+      if (system.services[screenID].global || system.services[screenID].departments[myDepartment])
+        routes.push({
+          page: screenID,
+          name: renameScreens[screenID] ? renameScreens[screenID] : screenID
+        });
+    }
+    routes.order
+    return routes;
   });
 }
