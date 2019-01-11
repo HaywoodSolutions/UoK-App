@@ -6,8 +6,9 @@ import EditArticleScreen from '../../screens/Articles/EditArticleScreen';
 import CreateArticleScreen from '../../screens/Articles/CreateArticleScreen';
 import ViewArticleScreen from '../../screens/Articles/ViewArticleScreen';
 
-import {THEME_COLOR} from "../../lib/Constants";
-import CustomHeader from "../../components/CustomHeader";
+import BackButton from '../../components/BackButton';
+
+import { THEME_COLOR } from "../../lib/Constants";
 
 export default createStackNavigator(
     {
@@ -25,9 +26,19 @@ export default createStackNavigator(
       },
       CreateArticle: {
         screen: CreateArticleScreen,
-        navigationOptions: () => ({
-          header: null
-        }),
+        navigationOptions: ({ navigation }) => ({
+          title: `Create Article`,
+          headerStyle: {
+            backgroundColor: THEME_COLOR,
+            borderBottomWidth: 0
+          },
+          headerTitleStyle: {
+            color: '#fff'
+          },
+          headerTintColor: 'white',
+          gesturesEnabled: true,
+          headerLeft: BackButton(navigation)
+        })
       },
       EditArticle: {
         screen: EditArticleScreen,
@@ -38,20 +49,9 @@ export default createStackNavigator(
     },
     {
       initialRouteName: 'CreateArticle',
-      navigationOptions: {
-        header: null
-      },
-      tabBarPosition: 'bottom',
       animationEnabled: true,
       swipeEnabled: true,
       animationEnabled: true,
-      tabBarOptions: {
-        activeTintColor: 'lightgray',
-        inactiveTintColor: 'grey',
-        style: {
-			backgroundColor: '#CB2228'
-		}
-      },
       backBehavior: 'none'
     }
 );

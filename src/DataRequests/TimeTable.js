@@ -8,7 +8,7 @@ export async function getTimeTable() {
   
   const uid = firebase.auth().currentUser.uid;
   
-  const userRef = firestore.collection('user').doc(uid);
+  const userRef = firestore.collection('users').doc(uid);
   return userRef.get().then(doc => {
     const userData = doc.data();
     const timetableID = userData.timtableID;

@@ -4,7 +4,9 @@ import {THEME_COLOR} from "../../lib/Constants";
 
 import SDSWebView from "../../components/SDSWebView";
 
-export default class SDSHome extends React.Component {
+export default 
+
+class SDSHome extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -22,6 +24,8 @@ export default class SDSHome extends React.Component {
     );
   }
 }
+
+return new SDSHome();
 
 const styles = StyleSheet.create({
   backgroundStyle: {

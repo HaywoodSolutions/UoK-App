@@ -2,24 +2,25 @@ import React from 'react';
 import {View, Text, StyleSheet, Platform, ScrollView, FlatList } from 'react-native';
 import {connect} from "react-redux";
 import {FontAwesome, Entypo} from '@expo/vector-icons';
-import {THEME_COLOR} from "../lib/Constants";
-
-import { getCustomHomePage } from "../DataRequests/Home";
+import {THEME_COLOR} from "../../../lib/Constants";
 
 class Lectures extends React.Component {
   constructor() {
     super();
     this.state = {
-      icons: []
+      icons: [
+        {
+          name: "Returning Registration",
+          page: "ReturningRegistration"
+        },
+        {
+          name: "Module Registration",
+          page: "ModuleRegistration"
+        }
+      ]
     };
   }
-  
-  componentDidMount() {
-    getCustomHomePage()
-      .then(icons => this.setState({ icons: icons, refreshing: false }))
-      .catch(() => this.setState({ refreshing: false }));
-  }
-                                  
+                         
   render() {
     const { backgroundStyle, noteStyle } = styles;
     const {
@@ -33,7 +34,7 @@ class Lectures extends React.Component {
           <ScrollView style={styles.list}>
             <FlatList
                 data={this.state.icons}
-                renderItem={({ item }) => <Text key={item.name} style={styles.item} onPress={() => this.props.navigation.navigate(item.page)}>{item.name}</Text>}
+                renderItem={({ item }) =>   <Text key={item.name} style={styles.item} onPress={() => this.props.navigation.navigate(item.page)}>{item.name}</Text>}
                 keyExtractor={item => item.name}
                 refreshing={this.state.refreshing}
               />

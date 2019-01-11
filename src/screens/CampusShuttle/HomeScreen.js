@@ -11,12 +11,11 @@ export default class SDSHome extends React.Component {
 
   render() {
     const { backgroundStyle } = styles;
-    alert("We apologise while we work to make this for mobile use")
     
     return (
         <View style={backgroundStyle}>
           <SDSWebView
-              uri={'https://sds.kent.ac.uk/student/student_page.php'}
+              uri={'https://www.kent.ac.uk/campus-shuttle/CS-timetable-2019.pdf'}
             />
         </View>
     );

@@ -1,15 +1,15 @@
 import React from 'react';
 import { createStackNavigator } from 'react-navigation';
-import SDSScreen from '../screens/SDS/SDSHomeScreen';
-import {THEME_COLOR} from "../lib/Constants";
-import BackButton from '../components/BackButton';
+import HomeScreen from '../../screens/PrintingCredits/HomeScreen';
+import {THEME_COLOR} from "../../lib/Constants";
+import BackButton from '../../components/BackButton';
 
 export default createStackNavigator(
     {
       Home: {
-        screen: SDSScreen,
+        screen: HomeScreen,
         navigationOptions: ({ navigation }) => ({
-          title: `SDS`,
+          title: `Printing Credits`,
           headerStyle: {
             backgroundColor: THEME_COLOR,
             borderBottomWidth: 0

@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextInput } from 'react-native';
+import TextInput from './AutoExpandingTextInput';
 
 export const Input = ({ value, onChangeText, placeholder, secureTextEntry, style, multiline, numberOfLines }) => {
   return (
@@ -25,6 +25,7 @@ const styles = {
     borderWidth: 1,  // size/width of the border
     borderColor: 'lightgrey',  // color of the border
     height: 40,
-    borderRadius: 5
+    borderRadius: 5,
+    padding: 5
   }
 };

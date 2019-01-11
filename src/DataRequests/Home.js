@@ -20,6 +20,8 @@ export async function getCustomHomePage() {
     "Inquire": "Inquire Media",
     "SDS": "SDS",
     "Articles": "Articles",
+    "CampusShuttle": "Campus Shuttle Bus",
+    "PrintingCredits": "Printing Credits",
   }
   
   let myDepartment = "SoC";

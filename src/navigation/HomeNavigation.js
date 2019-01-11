@@ -13,9 +13,11 @@ import InquireNavigation from './InquireNavigation';
 import StageCoachNavigation from './StageCoachNavigation';
 import SettingsScreen from '../screens/SettingsScreen';
 import PCAvailabilityNavigation from './PCAvailabilityNavigation';
-import SDSNavigation from './SDSNavigation';
+import SDSNavigation from './SDS/MainNavigation';
 import TechSupportNavigation from './TechSupportNavigation';
 import ArticleNavigation from './Articles/ArticleNavigation';
+import PrintingCreditsNavigation from './PrintingCredits/MainNavigation';
+import CampusShuttleNavigation from './CampusShuttle/MainNavigation';
 
 import SocietiesNavigation from './SocietiesNavigation';
 import Title from '../components/Title';
@@ -34,8 +36,20 @@ export default createStackNavigator({
         header: null
       })
     },
+    PrintingCredits: {
+      screen: PrintingCreditsNavigation,
+      navigationOptions: () => ({
+        header: null
+      })
+    },
     PCAvailability: {
       screen: PCAvailabilityNavigation,
+      navigationOptions: () => ({
+        header: null
+      })
+    },
+    CampusShuttle: {
+      screen: CampusShuttleNavigation,
       navigationOptions: () => ({
         header: null
       })

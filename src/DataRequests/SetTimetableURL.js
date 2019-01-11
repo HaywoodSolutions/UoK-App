@@ -7,7 +7,7 @@ export async function setTimetableURL(timtableID) {
   
   const uid = firebase.auth().currentUser.uid;
   
-  const userDoc = firestore.collection('user').doc(uid);
+  const userDoc = firestore.collection('users').doc(uid);
   
   return userDoc.update({
     timtableID: timtableID

@@ -27,6 +27,7 @@ export const passwordChanged = (password) => {
 export const authUser = (email, password, navigation) => {
   return (dispatch) => {
     dispatch({type: LOGIN_USER});
+    if (email.indexOf('@kent.ac.uk') != -1) {
     firebase.auth().signInWithEmailAndPassword(email, password)
         .then(user => loginUserSuccess(navigation))
         .catch((err) => {
@@ -37,6 +38,9 @@ export const authUser = (email, password, navigation) => {
               .then(user => loginUserSuccess(navigation))
               .catch((err) => loginUserFail(dispatch, err));
         });
+    } else {
+      loginUserFail(dispatch, "Please sign in with a Kent Account");
+    }
   };
 };
 

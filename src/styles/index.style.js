@@ -68,7 +68,7 @@ export default StyleSheet.create({
         borderRadius: 4,
         marginHorizontal: 8
     },
-     backgroundStyle: {
+    backgroundStyle: {
       flex: 1,
       backgroundColor: THEME_COLOR,
       ...Platform.select({
@@ -81,6 +81,19 @@ export default StyleSheet.create({
         borderTopLeftRadius: 5,
         borderTopRightRadius: 5,
         backgroundColor: "#ffffff",
+        padding: 5,
         flex: 1
-    }
+    },
+    title: {
+        color: colors.black,
+        fontSize: 16,
+        fontWeight: 'bold',
+        letterSpacing: 0.5
+    },
+    subtitle: {
+        marginTop: 6,
+        color: colors.gray,
+        fontSize: 15,
+        fontStyle: 'italic'
+    },
 });
