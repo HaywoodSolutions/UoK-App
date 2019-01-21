@@ -9,7 +9,7 @@ function wp (percentage) {
     return Math.round(value);
 }
 
-const slideHeight = viewportHeight * 0.36;
+const slideHeight = viewportHeight * 0.32;
 const slideWidth = wp(75);
 const itemHorizontalMargin = wp(2);
 
@@ -31,7 +31,7 @@ export default StyleSheet.create({
         left: itemHorizontalMargin,
         right: itemHorizontalMargin,
         bottom: 18,
-        shadowColor: colors.black,
+        shadowColor: 'rgb(240,244,247)',
         shadowOpacity: 0.25,
         shadowOffset: { width: 0, height: 10 },
         shadowRadius: 10,
@@ -40,12 +40,9 @@ export default StyleSheet.create({
     imageContainer: {
         flex: 1,
         marginBottom: IS_IOS ? 0 : -1, // Prevent a random Android rendering issue
-        backgroundColor: 'white',
+        backgroundColor: 'rgb(240,244,247)',
         borderTopLeftRadius: entryBorderRadius,
         borderTopRightRadius: entryBorderRadius
-    },
-    imageContainerEven: {
-        backgroundColor: colors.black
     },
     image: {
         ...StyleSheet.absoluteFillObject,
@@ -61,39 +58,27 @@ export default StyleSheet.create({
         left: 0,
         right: 0,
         height: entryBorderRadius,
-        backgroundColor: 'white'
-    },
-    radiusMaskEven: {
-        backgroundColor: colors.black
+        backgroundColor: 'rgb(240,244,247)'
     },
     textContainer: {
         justifyContent: 'center',
         paddingTop: 20 - entryBorderRadius,
         paddingBottom: 20,
         paddingHorizontal: 16,
-        backgroundColor: 'white',
+        backgroundColor: 'rgb(240,244,247)',
         borderBottomLeftRadius: entryBorderRadius,
         borderBottomRightRadius: entryBorderRadius
     },
-    textContainerEven: {
-        backgroundColor: colors.black
-    },
     title: {
-        color: colors.black,
+        color: "#040404",
         fontSize: 13,
         fontWeight: 'bold',
         letterSpacing: 0.5
     },
-    titleEven: {
-        color: 'white'
-    },
     subtitle: {
         marginTop: 6,
-        color: colors.gray,
+        color: "#8D8D8D",
         fontSize: 12,
         fontStyle: 'italic'
-    },
-    subtitleEven: {
-        color: 'rgba(255, 255, 255, 0.7)'
     }
 });

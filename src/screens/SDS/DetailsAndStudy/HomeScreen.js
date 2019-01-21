@@ -18,27 +18,27 @@ class Lectures extends React.Component {
           page: "MyDeadlines"
         },
         {
-          name: "My Details (Name, Faculty, Department etc)",
+          name: "My Details",
           page: "MyDetails"
         },
-        {
+        /*{
           name: "My Letters",
           page: "MyLetters"
-        },
+        },*/
         {
           name: "My Marks",
           page: "MyMarks"
         },
         {
-          name: "My Modules - Details",
+          name: "My Modules",
           page: "MyModules"
         },
         {
-          name: "My Progress (Stage decision or award)",
+          name: "My Progress",
           page: "MyProgress"
         },
-        {
-          name: "My Academic Adviser / Supervisor Notes",
+        /*{
+          name: "My Academic Adviser Notes",
           page: "MyAcademicAdviser"
         },
         {
@@ -48,7 +48,7 @@ class Lectures extends React.Component {
         {
           name: "SMS Text Facility",
           page: "SMSTextFacility"
-        },
+        },*/
       ]
     };
   }

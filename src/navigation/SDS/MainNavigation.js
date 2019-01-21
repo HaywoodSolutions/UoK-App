@@ -1,42 +1,41 @@
 import React from 'react';
-import { createBottomTabNavigator } from 'react-navigation';
-import DetailsAndStudy from './DetailsAndStudyNavigation';
-import Registration from './RegistrationNavigation';
-import WorkshopsScreen from '../../screens/SDS/WorkshopsScreen';
+import { createStackNavigator } from 'react-navigation';
+import TabsNavigation from './DetailsAndStudyNavigation';
+import SignInScreen from '../../screens/SDS/SignInScreen';
+
 
 import {THEME_COLOR} from "../../lib/Constants";
+import BackButton from '../../components/BackButton';
 
-export default createBottomTabNavigator(
+export default createStackNavigator(
     {
-      DetailsAndStudy: {
-        screen: DetailsAndStudy,
-        navigationOptions: {
-          header: 'null'
-        }
+      SignIn: {
+        screen: SignInScreen,
+        navigationOptions: ({ navigation }) => ({
+          title: `SDS Sign In`,
+          headerStyle: {
+            backgroundColor: THEME_COLOR,
+            borderBottomWidth: 0
+          },
+          headerTitleStyle: {
+            color: '#fff'
+          },
+          headerTintColor: 'white',
+          gesturesEnabled: true,
+          headerLeft: BackButton(navigation)
+        })
       },
-      Registration: {
-        screen: Registration,
-        navigationOptions: {
+      Tabs: {
+        screen: TabsNavigation,
+        navigationOptions: ({ navigation }) => ({
           header: null
-        }
-      },
-      Workshops: {
-        screen: WorkshopsScreen,
-        navigationOptions: {
-          header: null
-        }
-      },
+        })
+      }
     },
     {
-      initialRouteName: 'DetailsAndStudy',
-      tabBarPosition: 'bottom',
+      initialRouteName: 'SignIn',
       animationEnabled: true,
-      swipeEnabled: true,
-      animationEnabled: true,
-      tabBarOptions: {
-        activeTintColor: THEME_COLOR,
-        inactiveTintColor: 'lightgray',
-      },
+      swipeEnabled: false,
       backBehavior: 'none'
     }
 );

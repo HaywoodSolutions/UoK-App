@@ -5,6 +5,8 @@ import {FontAwesome, Entypo} from '@expo/vector-icons';
 import {THEME_COLOR} from "../lib/Constants";
 import firebase from 'firebase';
 
+import SDSWebView from "../components/SDSWebView";
+
 class Lectures extends React.Component {
   constructor() {
     super();
@@ -52,9 +54,48 @@ class Lectures extends React.Component {
       alert(error);
     }
     const navigation = this.props.navigation;
+    
+    var code = `
+
+document.onload = function() {
+  $("[target='_blank']").hide();
+};
+
+/* Get Categorys */
+
+var coursesObj = [];
+$(".kcolist .category:has(.title-item a)").each((i,elm) => {
+  let title = $(elm).find(".title-item a").toArray();
+  for (var i in title) {
+    title[i] = $(title[i]).html().trim();
+  }
+
+  let courses = $(elm).find(".kcolist1 .course").toArray();
+  for (var i in courses) {
+    courses[i] = {
+      title: $(courses[i]).find(".title a").attr("title"),
+      description: $(courses[i]).find(".course_description").html().replace('&nbsp;', '').trim()
+    };
+  };
+  
+  let obj = {
+    title: title,
+    courses: courses
+  }
+  coursesObj.push(obj);
+});
+console.log(coursesObj);
+
+`;
     return (
         <View style={backgroundStyle}>
-      <ScrollView>
+          <ScrollView>
+             <SDSWebView
+                  uri={'https://moodle.kent.ac.uk/2018/my/'}
+                  insertJavaScript={code}
+                  onMessage={this.onMessage}
+                  hidden={false}
+                />
             <ListView contentContainerStyle={styles.list}
               onLayout={this.onLayout}
               enableEmptySections={true}

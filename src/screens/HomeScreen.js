@@ -73,11 +73,10 @@ const styles = StyleSheet.create({
   },
   item: {
       backgroundColor: '#FFF',
-      margin: 3,
+      marginBottom: 5,
       padding: 10,
       flex: 1,
       borderRadius: 5,
-      borderWidth: 2,
       borderColor: '#ffffff',
       color: '#000000',
       overflow: 'hidden',

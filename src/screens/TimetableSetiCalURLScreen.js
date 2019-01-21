@@ -1,7 +1,6 @@
 import React from 'react';
-import {View, Text, StyleSheet, Platform, ScrollView, Dimensions, AsyncStorage} from 'react-native';
+import {WebView, View, Text, StyleSheet, Platform, ScrollView, Dimensions, AsyncStorage} from 'react-native';
 import {connect} from "react-redux";
-import {FontAwesome, Entypo} from '@expo/vector-icons';
 import { saveNote } from '../actions';
 import {Button, Input} from '../components';
 import Slideshow from "../components/Slideshow"
@@ -13,22 +12,58 @@ class TimetableSettings extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      timetableURL: ""
+      loaded: true
     };
+    
+    this.onMessage = this.onMessage.bind(this);
   }
+                                  
+  onMessage(event) {
+    this.setState({
+      loaded: true
+    });
+    this.saveTimetableURL(event.nativeEvent.data);
+  }
+
   
-  static navigationOptions = {
-    tabBarIcon: ({tintColor}) => (<Entypo name="video" size={32} color={tintColor}/>)
-  };
-  
-  saveTimetableURL() {
-    setTimetableURL(this.state.timetableURL).then(() => {
-      alert("Updated timetable id");
+  saveTimetableURL(timetableURL) {
+    setTimetableURL(timetableURL).then(() => {
+      alert("Synced Timetable");
       this.props.navigation.goBack();
     }).catch((error) => {
-      alert("Failed to update " + error);
+      console.log("Failed to update " + error);
     });
   }
+  
+  navigationStateChangedHandler = ({url}) => {
+    if (url == 'https://www.kent.ac.uk/student/my-study/') {
+      console.log(url)
+      this.WebView.injectJavaScript(`
+$(function() {
+let PostMessage = function(data) {
+  if (document.hasOwnProperty('postMessage')) {
+      document.postMessage(data, '*');
+    } else if (window.hasOwnProperty('postMessage')) {
+      window.postMessage(data, '*');
+    }
+}
+var elements = document.cookie.split('=');
+var obligations= elements[1].split('%');
+let timetableID = obligations[obligations.indexOf('22timetable') + 3].substring(2);
+PostMessage(timetableID);
+});
+`)
+    }
+  }
+/*const PostMessage = function(data) {
+  if (document.hasOwnProperty('postMessage')) {
+      document.postMessage(data, '*');
+    } else if (window.hasOwnProperty('postMessage')) {
+      window.postMessage(data, '*');
+    }
+}
+    $(function() { PostMessage($(".calendar-link").html()); });`);*/
+  
                                   
   render() {
     const { backgroundStyle, noteStyle } = styles;
@@ -45,63 +80,23 @@ class TimetableSettings extends React.Component {
 
     const Width = Dimensions.get('window').width;
     const Height = Dimensions.get('window').width * 1.243;
-
+    let code = `
+$(".banner").hide() ;`;
     return (
+      
         <View style={backgroundStyle}>
-          <ScrollView style={styles.popup}>
-            <Input
-              placeholder='Enter your iCal Code'
-              style={noteStyle}
-              value={this.state.timetableURL}
-              onChangeText={(value) => this.setState({
-                timetableURL: value
-              })}
+          <WebView
+              source={{uri: "https://sso.id.kent.ac.uk/idp/module.php/core/loginuserpass.php?AuthState=https%3A%2F%2Fsso.id.kent.ac.uk%2Fidp%2Fsaml2%2Fidp%2FSSOService.php%3Fspentityid%3Dhttps%253A%252F%252Fwww.kent.ac.uk%252Fstudent%252Fdashboard%252F_sp%252Fmodule.php%252Fsaml%252Fsp%252Fmetadata.php%252Fdefault-sp%26RelayState%3Dhttps%253A%252F%252Fwww.kent.ac.uk%252Fstudent%252Fmy-study%252Frelay%252F"}}
+              scalesPageToFit={false}
+              injectedJavaScript={code}
+              onNavigationStateChange={this.navigationStateChangedHandler}
+              javaScriptEnabled={true}
+              style={{flex: 1, height: 400}}
+              onMessage={this.onMessage}
+              ref={c => {
+                this.WebView = c;
+              }}
             />
-            <Button
-                title={loading ? '' : 'Save your Timetable iCal'}
-                style={{
-                  height: 60,
-                  margin: 10,
-                  paddingTop: 5,
-                  paddingBottom: 5
-                }}
-                textStyle={{
-                  fontSize: 20,
-                  color: '#fff'
-                }}
-                buttonStyle={{
-                  backgroundColor: THEME_COLOR
-                }}
-                disabled={loading}
-                loadingColor={THEME_COLOR}
-                onPress={() => this.saveTimetableURL(note)}
-                loading={loading}
-            />
-            <Text
-                style={{
-                  fontSize: 16
-                }}
-            >
-              {'Where do I find it?'}
-            </Text>
-            <Slideshow style={{marginBottom: 10, marginTop: 10}}
-                  width={Width}
-                  height={Height}
-                  containerStyle={{
-                    width: Width,
-                    height: Height
-                   }}
-                  indicatorSelectedColor={THEME_COLOR}
-                  dataSource={[
-                    { image: require("../img/iCal-Step1.png"),
-                      title: 'Step 1: Go you your timetabling page'},
-                    { image: require("../img/iCal-Step2.png"),
-                      title: 'Step 2: Open settings'},
-                    { image: require("../img/iCal-Step3.png"),
-                      title: 'Step 3: Copy the Calendar feed URL'}
-                  ]}
-                />
-          </ScrollView>
         </View>
     );
   }

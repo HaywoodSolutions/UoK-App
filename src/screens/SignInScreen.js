@@ -1,20 +1,42 @@
 import React from 'react';
-import {View, Text, StyleSheet, Platform, SafeAreaView } from 'react-native';
+import {View, Text, Platform, KeyboardAvoidingView, Image, Dimensions } from 'react-native';
 import {connect} from 'react-redux';
 import {Button, Input} from '../components';
 import {authUser, emailChanged, passwordChanged} from '../actions';
 import {THEME_COLOR} from "../lib/Constants";
 import { Video } from 'expo';
 
+import styles from "../styles/main.style";
+
 class SignIn extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      hasFocus: false
+    };
+  }
+  
   static navigationOptions = {
     title: 'Sign In',
     header: null
   };
 
-  render() {
+  setFocus (hasFocus) {
+    this.setState({hasFocus});
+  }
 
-    const { backgroundStyle, inputStyle, labelStyle } = styles;
+  getStyle() {
+    return {
+      position: 'absolute',
+      flex: 1,
+      height: Dimensions.get('window').height,
+      paddingTop: (!this.state.hasFocus ? (Dimensions.get('window').height / 2) : 0),
+      width: Dimensions.get('window').width,
+      backgroundColor: 'red'
+    };
+  }
+
+  render() {
 
     const {
       loading,
@@ -29,109 +51,73 @@ class SignIn extends React.Component {
     }
 
     return (
-        <View style={backgroundStyle}>
-          <Video
-            source={require('../../videos/bg.mp4')}
-            resizeMode="cover"
-            shouldPlay
-            isMuted={true}
-            shouldPlay
-            isLooping    
-            style={styles.video}
-          />
-          <SafeAreaView   style={styles.content}>
-            <Text
-                style={{
-                  fontWeight: '600',
-                  fontSize: 30,
-                  alignSelf: 'center',
-                  color: 'white',
-                  textAlign: 'center',
-                  paddingTop: 10
-                }}
-            >
-              {'KentFlix'}
-            </Text>
-            <Text
-              style={labelStyle}>
-              Email
-            </Text>
-            <Input
-                placeholder='ab123@kent.ac.uk'
-                style={inputStyle}
-                value={email}
-                onChangeText={(email) => this.props.emailChanged(email)}
-            />
-            <Text style={labelStyle}>
-              Password
-            </Text>
-            <Input
-                placeholder='password'
-                style={inputStyle}
-                value={password}
-                secureTextEntry={true}
-                onChangeText={(password) => this.props.passwordChanged(password)}
-            />
-            <Button
-                title={loading ? '' : 'Sign In'}
-                style={{
-                  height: 60,
-                  margin: 10,
-                  paddingTop: 5,
-                  paddingBottom: 5
-                }}
-                textStyle={{
-                  fontSize: 20,
-                  color: THEME_COLOR
-                }}
-                buttonStyle={{
-                  backgroundColor: '#fff'
-                }}
-                loadingColor={THEME_COLOR}
-                onPress={() => this.props.authUser(email, password, navigation)}
-                loading={loading}/>
-          </SafeAreaView >
+      
+      <KeyboardAvoidingView style={{flex: 1}} behavior="padding" enabled>
+        <View style={styles.blackBackground}>
+            <View style={{
+              alignItems: 'stretch',
+              flex: 1
+            }}>
+              <Image
+                resizeMode="cover"
+                source={{uri: 'https://www.kent.ac.uk/qstep/images/Kent%20in%20the%20summer.jpg'}}
+                style={styles.bgVideo}
+              />
+            </View>
+            <View style={{
+              alignItems: 'stretch',
+              flex: 1,
+              padding: 15,
+              paddingBottom: 20,
+              backgroundColor: '#fff'
+            }}>
+              <Text
+                style={styles.title}>
+                Email
+              </Text>
+              <Input
+                  placeholder='ab123@kent.ac.uk'
+                  style={styles.input}
+                  value={email}
+                  onChangeText={(email) => {this.props.emailChanged(email)}}
+                  onFocus={this.setFocus.bind(this, true)}
+                  onBlur={this.setFocus.bind(this, false)}
+                  keyboardType={"email-address"}
+              />
+              <Text style={styles.title}>
+                Password
+              </Text>
+              <Input
+                  placeholder='password'
+                  style={styles.input}
+                  value={password}
+                  secureTextEntry={true}
+                  onChangeText={(password) => this.props.passwordChanged(password)}
+                  onFocus={this.setFocus.bind(this, true)}
+                  onBlur={this.setFocus.bind(this, false)}
+              />
+              <Button
+                  title={loading ? '' : 'Sign In'}
+                  style={{
+                    height: 60,
+                    marginBottom: 10
+                  }}
+                  textStyle={{
+                    fontSize: 20,
+                    color: THEME_COLOR
+                  }}
+                  buttonStyle={{
+                    backgroundColor: '#fff'
+                  }}
+                  loadingColor={THEME_COLOR}
+                  onPress={() => { this.props.authUser(email, password, navigation) }}
+                  loading={loading}/>
+            </View>
         </View>
+      </KeyboardAvoidingView >
     );
   }
 }
-
-const styles = StyleSheet.create({
-  backgroundStyle: {
-    flex: 1,
-    backgroundColor: THEME_COLOR,
-    ...Platform.select({
-      ios:{
-        paddingTop:10
-      }
-    })
-  },
-  content: {
-    flex: 1,
-    justifyContent:'center',
-    alignItems: 'stretch',
-  },
-  video: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    bottom: 0,
-    right: 0,
-  },
-  inputStyle: {
-    backgroundColor: '#fff',
-    padding: 5,
-    height: 50,
-    margin: 10
-  },
-  labelStyle: {
-    fontWeight: '600',
-    fontSize: 20,
-    alignSelf: 'flex-start',
-    color: 'white',
-    paddingLeft: 10
-  }
-});
 
 const mapStateToProps = (state) => {
   return {

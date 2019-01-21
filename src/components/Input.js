@@ -1,7 +1,7 @@
 import React from 'react';
-import TextInput from './AutoExpandingTextInput';
+import { TextInput } from 'react-native';
 
-export const Input = ({ value, onChangeText, placeholder, secureTextEntry, style, multiline, numberOfLines }) => {
+export const Input = ({ value, onChangeText, placeholder, secureTextEntry, style, multiline, numberOfLines, keyboardType }) => {
   return (
     <TextInput
         multiline={multiline}
@@ -12,6 +12,7 @@ export const Input = ({ value, onChangeText, placeholder, secureTextEntry, style
         value={value}
         onChangeText={onChangeText}
         style={[styles.inputStyle, style]}
+        keyboardType={keyboardType}
         underlineColorAndroid='transparent'
     />
   );

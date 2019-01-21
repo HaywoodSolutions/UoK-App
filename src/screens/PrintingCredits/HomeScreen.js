@@ -16,7 +16,10 @@ export default class SDSHome extends React.Component {
         <View style={backgroundStyle}>
           <SDSWebView
               insertJavaScript={`
-                document.getElementById("client-header").style.display = "none";
+alert('hi');
+$(function() {
+  $("#logoAndNavTools, #globalNav, .footer ul, .help-tip").hide();
+})
               `}
               uri={'https://epay.kent.ac.uk/printcredits/'}
             />

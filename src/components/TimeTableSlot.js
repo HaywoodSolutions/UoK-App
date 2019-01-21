@@ -1,8 +1,10 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import { Text, Button, Card, Divider } from 'react-native-elements';
 import {THEME_COLOR} from "../lib/Constants";
 import moment from 'moment';
+
+import styles from "../styles/main.style"
 
 export default class TimeTableSession extends React.Component {
   render() {
@@ -15,30 +17,22 @@ export default class TimeTableSession extends React.Component {
       key,
       startDate
     } = this.props.session;
-    const { noteStyle } = styles;
     const startAMPM = (startHour < 13) ? startHour + "AM" : (startHour - 12) + "PM";
     const endAMPM = (endHour < 13) ? endHour + "AM" : (endHour - 12) + "PM";
-
+    
     return (
-        <Card key={key} containerStyle={{ backgroundColor: THEME_COLOR, margin: 10 }}>
-          <Text style={{ marginBottom: 0, color: '#fff' }}>{title}</Text>
-          <Divider style={{ backgroundColor: '#dfe6e9' }} />
-          <View
-            style={{ flexDirection: 'row', justifyContent: 'space-between' }}
-          >
-            <Text style={noteStyle}>{"Location:"} {location.toUpperCase()}</Text>
-            <Text style={noteStyle}>{day} {startAMPM} {"-"} {endAMPM}</Text>
+      <TouchableOpacity
+        onPress={this.props.onPress}
+        key={key} 
+      >
+        <View style={styles.card}>
+          <View style={styles.cardBody}>
+            <Text style={styles.title}>{day} {startAMPM} {"-"} {endAMPM}</Text>
+            <Text style={styles.text}>{title}</Text>
+            <Text style={styles.title}>{"Location:"} {location.toUpperCase()}</Text>
           </View>
-        </Card>
+        </View>
+      </TouchableOpacity>
     );
   }
 }
-
-const styles = {
-  noteStyle: {
-    margin: 5,
-    fontStyle: 'italic',
-    color: '#fff',
-    fontSize: 10
-  }
-};

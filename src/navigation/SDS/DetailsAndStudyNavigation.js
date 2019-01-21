@@ -99,7 +99,7 @@ export default createStackNavigator(
         })
       },
       MyMarks: {
-        screen: MyLettersScreen,
+        screen: MyMarksScreen,
         navigationOptions: ({ navigation }) => ({
           title: `My Marks`,
           headerStyle: {

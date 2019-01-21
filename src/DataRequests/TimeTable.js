@@ -11,9 +11,9 @@ export async function getTimeTable() {
   const userRef = firestore.collection('users').doc(uid);
   return userRef.get().then(doc => {
     const userData = doc.data();
-    const timetableID = userData.timtableID;
-    if (timetableID) {
-      return loadTimeTable(timetableID);
+    const timetableURL = userData.timetableURL;
+    if (timetableURL) {
+      return loadTimeTable(timetableURL);
     } else {
       return {
         storedURL: false
@@ -84,6 +84,8 @@ function loadTimeTable(id) {
               } else if (lines[i].includes('LOCATION')) {
                 var location = lines[i].split(":");
                 events[currentWeek][weekCount]["location"] = location[1];
+              } else if (lines[i].includes('DESCRIPTION')) {
+                events[currentWeek][weekCount]["description"] = lines[i].replace("DESCRIPTION:", "").split("\\n\\n");
               } else if (lines[i].includes('END:VEVENT')) {
                 events_i++;
               }

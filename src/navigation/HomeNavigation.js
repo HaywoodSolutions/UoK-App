@@ -19,7 +19,7 @@ import ArticleNavigation from './Articles/ArticleNavigation';
 import PrintingCreditsNavigation from './PrintingCredits/MainNavigation';
 import CampusShuttleNavigation from './CampusShuttle/MainNavigation';
 
-import SocietiesNavigation from './SocietiesNavigation';
+import SocietiesNavigation from './Societies/HomeNavigation';
 import Title from '../components/Title';
 import {THEME_COLOR} from "../lib/Constants";
 

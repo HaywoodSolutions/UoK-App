@@ -32,11 +32,12 @@ export async function getCustomHomePage() {
     const routes = [];
     
     for (let screenID in system.services) {
-      if (system.services[screenID].global || system.services[screenID].departments[myDepartment])
+      if (system.services[screenID].global || (system.services[screenID].departments && system.services[screenID].departments[myDepartment])) {
         routes.push({
           page: screenID,
           name: renameScreens[screenID] ? renameScreens[screenID] : screenID
         });
+      }
     }
     routes.order
     return routes;

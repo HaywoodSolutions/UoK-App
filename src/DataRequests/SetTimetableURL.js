@@ -1,6 +1,6 @@
 import firebase from 'firebase';
 
-export async function setTimetableURL(timtableID) {
+export async function setTimetableURL(timetableURL) {
   const firestore = firebase.firestore();
   const settings = { timestampsInSnapshots: true };
   firestore.settings(settings);
@@ -10,6 +10,6 @@ export async function setTimetableURL(timtableID) {
   const userDoc = firestore.collection('users').doc(uid);
   
   return userDoc.update({
-    timtableID: timtableID
+    timetableURL: timetableURL
   });
 }

@@ -27,20 +27,20 @@ export const passwordChanged = (password) => {
 export const authUser = (email, password, navigation) => {
   return (dispatch) => {
     dispatch({type: LOGIN_USER});
-    if (email.indexOf('@kent.ac.uk') != -1) {
+    if (email.indexOf("@kent.ac.uk") == -1) {
+       loginUserFail(dispatch, "Must use a Kent email");
+    } else 
+    
     firebase.auth().signInWithEmailAndPassword(email, password)
-        .then(user => loginUserSuccess(navigation))
-        .catch((err) => {
-          //If there is an error during sign in we'll assume this means
-          //the account doesn't exist and attempt to create one. If the error is different,
-          //then this auth action will fail again and we'll show the error to the user.
-          firebase.auth().createUserWithEmailAndPassword(email, password)
-              .then(user => loginUserSuccess(navigation))
-              .catch((err) => loginUserFail(dispatch, err));
-        });
-    } else {
-      loginUserFail(dispatch, "Please sign in with a Kent Account");
-    }
+      .then(user => loginUserSuccess(navigation))
+      .catch((err) => {
+        //If there is an error during sign in we'll assume this means
+        //the account doesn't exist and attempt to create one. If the error is different,
+        //then this auth action will fail again and we'll show the error to the user.
+        firebase.auth().createUserWithEmailAndPassword(email, password)
+            .then(user => loginUserSuccess(navigation))
+            .catch((err) => loginUserFail(dispatch, err));
+      });
   };
 };
 
