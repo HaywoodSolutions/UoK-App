@@ -2,7 +2,7 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import {THEME_COLOR} from "../../lib/Constants";
 
-import SDSWebView from "../../components/SDSWebView";
+import PrintingCreditsView from "../../components/PrintingCreditsView";
 
 export default class SDSHome extends React.Component {
   constructor(props) {
@@ -14,12 +14,8 @@ export default class SDSHome extends React.Component {
     
     return (
         <View style={backgroundStyle}>
-          <SDSWebView
+          <PrintingCreditsView
               insertJavaScript={`
-alert('hi');
-$(function() {
-  $("#logoAndNavTools, #globalNav, .footer ul, .help-tip").hide();
-})
               `}
               uri={'https://epay.kent.ac.uk/printcredits/'}
             />

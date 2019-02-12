@@ -22,7 +22,7 @@ const PostMessage = function(data) {
     } else if (window.hasOwnProperty('postMessage')) {
       window.postMessage(data, '*');
     }
-}
+};
     ` + props.insertJavaScript;
   }
 

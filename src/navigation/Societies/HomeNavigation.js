@@ -3,7 +3,7 @@ import { createStackNavigator } from 'react-navigation';
 import TabsNavigation from './TabsNavigation';
 import SocietiesViewCategory from '../../screens/Societies/SocietiesViewCategoryScreen';
 import ViewSociety from '../../screens/Societies/ViewSocietyScreen';
-import ManageSocietyPage from '../../screens/Societies/ManageSocietyPageScreen';
+import ManageSocietyPage from './ManageSocietyPageNavigation';
 
 import {THEME_COLOR} from "../../lib/Constants";
 import BackButton from '../../components/BackButton';

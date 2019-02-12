@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, Platform, ScrollView, FlatList } from 'react-native';
+import {View, Text, StyleSheet, Platform, ScrollView, FlatList, TouchableOpacity } from 'react-native';
 import {connect} from "react-redux";
 import {FontAwesome, Entypo} from '@expo/vector-icons';
 import {THEME_COLOR} from "../lib/Constants";
@@ -13,6 +13,18 @@ class Lectures extends React.Component {
       icons: []
     };
   }
+  
+  static navigationOptions = ({ navigation }) => {
+    return {
+      headerLeft: (
+        <View style={{marginLeft: 15}}>
+          <TouchableOpacity onPress={() => {navigation.openDrawer()}}>
+            <Entypo name="menu" size={30} color={"white"} />
+          </TouchableOpacity>
+        </View>
+      )
+    };
+  };
   
   componentDidMount() {
     getCustomHomePage()
@@ -37,7 +49,6 @@ class Lectures extends React.Component {
                 keyExtractor={item => item.name}
                 refreshing={this.state.refreshing}
               />
-              
           </ScrollView>
         </View>
     );

@@ -1,9 +1,7 @@
-import { createStackNavigator } from 'react-navigation';
-
-
+import { createDrawerNavigator } from 'react-navigation';
 import React from 'react';
+import {THEME_COLOR} from "../lib/Constants";
 
-import { Button, TouchableOpacity, View, Text } from 'react-native';
 import MainMenu from './MainMenuNavigation';
 import LecturesNavigation from './LecturesNavigation';
 import TimetableNavigation from './TimetableNavigation';
@@ -18,99 +16,115 @@ import TechSupportNavigation from './TechSupportNavigation';
 import ArticleNavigation from './Articles/ArticleNavigation';
 import PrintingCreditsNavigation from './PrintingCredits/MainNavigation';
 import CampusShuttleNavigation from './CampusShuttle/MainNavigation';
-
+import ElectionsNavigation from './Elections/HomeNavigation';
 import SocietiesNavigation from './Societies/HomeNavigation';
-import Title from '../components/Title';
-import {THEME_COLOR} from "../lib/Constants";
 
-export default createStackNavigator({
+export default createDrawerNavigator({
     Home: {
       screen: MainMenu,
-      navigationOptions: () => ({
-        header: null
-      })
     },
     Lectures: {
       screen: LecturesNavigation,
       navigationOptions: () => ({
+        drawerLabel: 'Lectures',
         header: null
       })
     },
     PrintingCredits: {
       screen: PrintingCreditsNavigation,
       navigationOptions: () => ({
+        drawerLabel: 'Printing Credits',
         header: null
       })
     },
     PCAvailability: {
       screen: PCAvailabilityNavigation,
       navigationOptions: () => ({
+        drawerLabel: 'PC Availability',
         header: null
       })
     },
     CampusShuttle: {
       screen: CampusShuttleNavigation,
       navigationOptions: () => ({
+        drawerLabel: 'Campus Shuttle',
         header: null
       })
     },
     Timetable: {
       screen: TimetableNavigation,
       navigationOptions: () => ({
+        drawerLabel: 'Timetable',
         header: null
       })
     },
     NewsFeed: {
       screen: NewsFeedNavigation,
       navigationOptions: () => ({
+        drawerLabel: 'Newsfeed',
         header: null
       })
     },
     StudentRadio: {
       screen: StudentRadioNavigation,
       navigationOptions: () => ({
+        drawerLabel: 'CSR Radio',
         header: null
       })
     },
     Inquire: {
       screen: InquireNavigation,
       navigationOptions: () => ({
+        drawerLabel: 'InQuire Media',
         header: null
       }),
     },
     StageCoach: {
       screen: StageCoachNavigation,
       navigationOptions: () => ({
+        drawerLabel: 'Buses',
         header: null
       }),
     },
     Societies: {
       screen: SocietiesNavigation,
       navigationOptions: () => ({
+        drawerLabel: 'Societies',
         header: null
       }),
     },
     TechSupport: {
       screen: TechSupportNavigation,
       navigationOptions: () => ({
+        drawerLabel: 'Tech Support',
         header: null
       }),
     },
     SDS: {
       screen: SDSNavigation,
       navigationOptions: () => ({
+        drawerLabel: 'SDS',
         header: null
       }),
     },
     Articles: {
       screen: ArticleNavigation,
       navigationOptions: () => ({
+        drawerLabel: 'Articles',
+        header: null
+      }),
+    },
+    Elections: {
+      screen: ElectionsNavigation,
+      navigationOptions: () => ({
+        drawerLabel: 'Elections',
         header: null
       }),
     },
     Settings: {
       screen: SettingsScreen,
       navigationOptions: () => ({
+        drawerLabel: 'Settings',
         headerTitle: "KentFlix",
         headerBackTitle: `Home`,
         headerStyle: {
@@ -124,54 +138,9 @@ export default createStackNavigator({
         headerTintColor: 'white',
         gesturesEnabled: true
       }),
-    },
+    }
   },
   {
-    mode: "card",
-    initialRouteName: "Home",
-    defaultNavigationOptions: {
-      title: `Lectures1`,
-      headerBackTitle: `Lectures2`,
-      headerStyle: {
-        backgroundColor: THEME_COLOR,
-      },
-      headerTitleStyle: {
-        color: '#fff',
-      },
-      headerTintColor: 'white'
-    }
+    initialRouteName: "Home"
   }
 );
-
-/*
-import React from 'react';
-import { createBottomTabNavigator } from 'react-navigation';
-import SessionScreen from '../screens/NoteScreen';
-import ProfileScreen from '../screens/ProfileScreen';
-import LecturesScreen from '../screens/LecturesScreen';
-import {THEME_COLOR} from "../lib/Constants";
-
-export default createBottomTabNavigator(
-    {
-      Lectures: {
-        screen: LecturesScreen,
-      },
-      Session: {
-        screen: SessionScreen,
-      },
-      Profile: {
-        screen: ProfileScreen,
-      },
-    },
-    {
-      tabBarPosition: 'bottom',
-      animationEnabled: false,
-      swipeEnabled: false,
-      tabBarOptions: {
-        showLabel: false,
-        activeTintColor: THEME_COLOR,
-        inactiveTintColor: 'lightgray'
-      }
-    }
-);
-*/

@@ -52,7 +52,6 @@ export async function getSocietyCategoryList(type) {
   });
 }
 
-
 export async function getSociety(societyID) {
   const firestore = firebase.firestore();
   const settings = { timestampsInSnapshots: true };
@@ -62,5 +61,16 @@ export async function getSociety(societyID) {
   return societyRef.get().then(doc => {
     let society = doc.data();
     return society;
+  });
+}
+
+export async function updateSocietyPage(societyID, page) {
+  const firestore = firebase.firestore();
+  const settings = { timestampsInSnapshots: true };
+  firestore.settings(settings);
+  
+  const societyRef = firestore.collection('societies').doc(societyID);
+  return societyRef.update({
+    page: page
   });
 }

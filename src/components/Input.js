@@ -9,6 +9,7 @@ export const Input = ({ value, onChangeText, placeholder, secureTextEntry, style
         secureTextEntry={secureTextEntry}
         placeholder={placeholder}
         autoCorrect={false}
+        autoCapitalize={'none'}
         value={value}
         onChangeText={onChangeText}
         style={[styles.inputStyle, style]}
@@ -22,7 +23,6 @@ const styles = {
   inputStyle: {
     color: '#000',
     fontSize: 16,
-    margin: 5,
     borderWidth: 1,  // size/width of the border
     borderColor: 'lightgrey',  // color of the border
     height: 40,

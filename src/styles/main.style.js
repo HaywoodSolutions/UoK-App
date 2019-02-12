@@ -9,6 +9,10 @@ export default StyleSheet.create({
     flex: 1,
     backgroundColor: THEME_COLOR
   },
+  screen: {
+    paddingTop: IS_IOS ? 20 : 0,
+    flex: 1
+  },
   blackBackground: {
     flex: 1,
     backgroundColor: '#000'
@@ -44,15 +48,52 @@ export default StyleSheet.create({
     minHeight:20
   },
   title: {
+    position: 'relative',
     color: '#040404',
     fontWeight: '600',
     fontSize: 14,
     height: 16
   },
+  h1: {
+    fontSize: 37,
+    height: 41
+  },
+  h2: {
+    fontSize: 30,
+    height: 34
+  },
+  h3: {
+    fontSize: 23,
+    height: 27
+  },
+  h4: {
+    fontSize: 16,
+    height: 20
+  },
+  mb4: {
+    marginBottom: 40
+  },
+  mb3: {
+    marginBottom: 30
+  },
+  mb2: {
+    marginBottom: 20
+  },
+  mb1: {
+    marginBottom: 10
+  },
   text: {
     color: '#8D8D8D',
     fontSize: 13,
     height: 15
+  },
+  subtitle: {
+    color: '#8D8D8D',
+    fontSize: 13,
+    height: 15
+  },
+  textRight: {
+    textAlign: 'right'
   },
   input: {
     backgroundColor: '#fff'
@@ -109,7 +150,7 @@ export default StyleSheet.create({
     height: entryBorderRadius,
     backgroundColor: 'rgb(240,244,247)'
   },
-  modal: {
+  bottomModal: {
     position: 'absolute',
     zIndex: 1,
     margin: 0, 
@@ -120,6 +161,19 @@ export default StyleSheet.create({
     width: Dimensions.get('window').width,
     borderTopLeftRadius: entryBorderRadius,
     borderTopRightRadius: entryBorderRadius,
+    padding: 15
+  },
+  modal: {
+    position: 'absolute',
+    zIndex: 1,
+    margin: 0, 
+    backgroundColor: 'white', 
+    height: 150,
+    flex: 1,
+    left: 20,
+    top: Dimensions.get('window').height / 2 - 75,
+    width: Dimensions.get('window').width - 40,
+    borderRadius: entryBorderRadius,
     padding: 15
   },
   textCenter: {
