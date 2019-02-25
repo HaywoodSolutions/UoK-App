@@ -2,8 +2,7 @@ import React from 'react';
 import { createStackNavigator } from 'react-navigation';
 import CoursesScreen from '../screens/Moodle/CoursesScreen';
 import CourseScreen from '../screens/Moodle/CourseScreen';
-import LecturesSelectModuleScreen from '../screens/LecturesSelectModuleScreen';
-import LecturesViewModuleScreen from '../screens/LecturesViewModuleScreen';
+import ViewLectureScreen from '../screens/Moodle/ViewLectureScreen';
 import {THEME_COLOR} from "../lib/Constants";
 import BackButton from '../components/BackButton';
 
@@ -41,11 +40,10 @@ export default createStackNavigator(
           headerLeft: BackButton(navigation)
         })
       },
-      SelectModule: {
-        screen: LecturesSelectModuleScreen,
+      ViewLecture: {
+        screen: ViewLectureScreen,
         navigationOptions: ({ navigation }) => ({
-          headerTransparent: true,
-          title: `Lecture View`,
+          title: `View Lecture`,
           headerStyle: {
             backgroundColor: 'rgba(9, 0, 10, 0.95)',
             borderBottomWidth: 0
@@ -57,23 +55,7 @@ export default createStackNavigator(
           gesturesEnabled: true,
           headerLeft: BackButton(navigation)
         })
-      },
-      ViewModule: {
-        screen: LecturesViewModuleScreen,
-        navigationOptions: ({ navigation }) => ({
-          title: `Lecture View`,
-          headerStyle: {
-            backgroundColor: 'rgba(9, 0, 10, 0.95)',
-            borderBottomWidth: 0
-          },
-          headerTitleStyle: {
-            color: '#fff'
-          },
-          headerTintColor: 'white',
-          gesturesEnabled: true,
-          headerLeft: BackButton(navigation)
-        })
-      },
+      }
     },
     {
       initialRouteName: 'Courses',

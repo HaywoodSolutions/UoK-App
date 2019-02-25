@@ -4,6 +4,7 @@ import {THEME_COLOR} from "../lib/Constants";
 
 import MainMenu from './MainMenuNavigation';
 import LecturesNavigation from './LecturesNavigation';
+import MeetingsNavigation from './Meetings/MainNavigation';
 import TimetableNavigation from './TimetableNavigation';
 import NewsFeedNavigation from './NewsFeedNavigation';
 import StudentRadioNavigation from './StudentRadioNavigation';
@@ -34,6 +35,13 @@ export default createDrawerNavigator({
       screen: PrintingCreditsNavigation,
       navigationOptions: () => ({
         drawerLabel: 'Printing Credits',
+        header: null
+      })
+    },
+    Meetings: {
+      screen: MeetingsNavigation,
+      navigationOptions: () => ({
+        drawerLabel: 'Meetings',
         header: null
       })
     },

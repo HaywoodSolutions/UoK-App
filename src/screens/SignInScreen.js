@@ -4,7 +4,6 @@ import {connect} from 'react-redux';
 import {Button, Input} from '../components';
 import {authUser, emailChanged, passwordChanged} from '../actions';
 import {THEME_COLOR} from "../lib/Constants";
-import { Video } from 'expo';
 
 import styles from "../styles/main.style";
 

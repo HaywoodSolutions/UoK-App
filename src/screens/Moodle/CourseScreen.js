@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, Platform, ScrollView, ListView, Image, Dimensions, TouchableOpacity } from 'react-native';
+import {View, Text, StyleSheet, Platform, ScrollView, ListView, Image, Dimensions, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 import {connect} from "react-redux";
 import {FontAwesome, Entypo} from '@expo/vector-icons';
 import {THEME_COLOR} from "../../lib/Constants";
@@ -66,28 +66,56 @@ class Course extends React.Component {
   };
 
   _renderLectureScene = () => {
-console.log(this.state.lectureData);
+		let weekCount = 0;
+		let lastWeekDate = 0;
+		let noPerWeek = 0;
+		let prevWeek;
+    const { navigate } = this.props.navigation;
     return (
       <ScrollView style={[style.scene]}>
         <View style={{margin: 15}}>
           {Object.keys(this.state.lectureData).map((lectureID) => {
+						function getParsedDate(date){
+							date = String(date).split(' ');
+							var days = String(date[0]).split('-');
+							var hours = String(date[1]).split(':');
+							return [parseInt(days[0]), parseInt(days[1])-1, parseInt(days[2]), parseInt(hours[0]), parseInt(hours[1]), parseInt(hours[2])];
+						}
+						const date = getParsedDate(this.state.lectureData[lectureID].pubDate);
+						let lectureNo = parseInt(lectureID) + 1;
+
+    				const thisWeek = parseInt((new Date(this.state.lectureData[lectureID].pubDate).getTime() + 432000000)/604800000);
+
+						const durationText = Number.parseInt(this.state.lectureData[lectureID].enclosure.duration/60)+":"+((this.state.lectureData[lectureID].enclosure.duration%60>9)?this.state.lectureData[lectureID].enclosure.duration%60:"0"+this.state.lectureData[lectureID].enclosure.duration%60);
+						const minText = Number.parseInt(this.state.lectureData[lectureID].enclosure.duration/60) + " MIN";
+						
             return (
-              <View
-                key={lectureID}
-                style={{
-                  backgroundColor: '#1D1C22',
-                  marginBottom: 11,
-                  borderRadius: 7.5
-                }}
-              >
-                <View
-                  style={{
-                    margin: 15,
-                  }}
-                >
-                  <Text style={{color: '#ffffff'}}>{"ad",this.state.lectureData[lectureID].title}</Text>
-                </View> 
-              </View>                       
+							<TouchableWithoutFeedback
+									onPress={() => {
+										navigate('ViewLecture', {lectureData: this.state.lectureData[lectureID]})
+									}}
+									key={lectureID}
+								>
+									<View
+										style={{
+											flex: 1,
+											backgroundColor: '#1D1C22',
+											marginBottom: 11,
+											borderRadius: 7.5
+										}}
+									>
+										<View
+											style={{
+												flex: 1,
+												margin: 15,
+											}}
+										>
+											<Text style={{color: '#ffffff'}}>{"ad",this.state.lectureData[lectureID].title}</Text>
+											<Text style={{color: '#ffffff'}}>{"Lecture " + lectureNo}</Text>
+											<Text style={{color: '#ffffff'}}>{minText}</Text>
+										</View> 
+									</View>  
+							</TouchableWithoutFeedback>
             );
           })}
         </View>
@@ -149,19 +177,40 @@ console.log(this.state.lectureData);
                   <Image 
                     source={require('../../../assets/LectureBackground.jpg')}
                     style={{
-                      position: 'absolute',
+                    	position: 'absolute',
                       width: Dimensions.get('window').width,
                       height: Dimensions.get('window').width
                     }}
                   />
                   <View
                     style={{
-                      flex: 1,
+                     	flex: 1,
                       width: Dimensions.get('window').width,
-                      height: Dimensions.get('window').width + 100
+                      height: Dimensions.get('window').width + 100,
+                    	position: 'relative'
                     }}
                   >
-
+                    <View
+                        style={{
+                          flex: 1,
+                          width: Dimensions.get('window').width,
+                          height: Dimensions.get('window').width / 2,
+                    			position: 'absolute',
+													bottom: 0,
+													padding: 15
+                        }}
+                      >
+                        <Text style={{
+                          color: '#fff',
+													fontSize: 50,
+													textAlign: 'center'
+                        }}>CO510</Text>
+												<Text style={{
+                          color: '#fff',
+													fontSize: 20,
+													textAlign: 'center'
+                        }}>An introduction to the intellectual enterprises of computer science and the art of programming.</Text>
+                    </View>
                   </View>
                   <TabView
                     navigationState={this.state}
